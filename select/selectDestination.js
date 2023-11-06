@@ -36,7 +36,7 @@ async function selectDestination(userId) {
         let longitude = startpoint_location.lng // 시작 좌표 경도
         let radius = 5000; // 반경 5km
         const results = []; // 결과를 저장하는 배열
-        results.push({ seq: 0, day: 1, name: startpoint_name, latitude: latitude, longitude: longitude, address: startpoint_address });
+        results.push({ seq: 0, day: 1, name: startpoint_name, latitude: latitude, longitude: longitude, address: startpoint_address, type: "여행지" });
         //console.log(results[0])
         const user_rankDestinationData = await setUserDestinationRank(userId); // 여행지 추천 갯수를 가져오고, 저장하는 data
         const user_rankFoodData = await setUserFoodRank(userId); // 음식 추천 갯수를 가져오고, 저장하는 data
@@ -75,7 +75,7 @@ async function selectDestination(userId) {
                         }
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
                         //console.log('여행지 탐색 시작', keyword)
-                        if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 여행지 값 저장
                                 seq: seq_value, day: 1, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -89,7 +89,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 여행지를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 여행지 값 저장
                                         seq: seq_value, day: 1, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -120,7 +120,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: 1, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -134,7 +134,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: 1, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -176,7 +176,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('여행지1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
-                        if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 여행지 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -190,7 +190,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 여행지를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 여행지 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -224,7 +224,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -238,7 +238,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -272,7 +272,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('숙소1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 숙소 탐색
-                        if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                             value.count--; // 해당 숙소 카테고리의 count 1 감소
                             results.push({ // 숙소 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -286,7 +286,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 숙소를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                                     value.count--; // 해당 숙소 카테고리의 count 1 감소
                                     results.push({ // 숙소 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -321,7 +321,7 @@ async function selectDestination(userId) {
                         for (const keyword of value.keywords) {
                             //console.log('여행지2-1 탐색 시작', keyword)
                             let searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                 longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -337,7 +337,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                         longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -361,7 +361,7 @@ async function selectDestination(userId) {
                             }
                             //console.log('여행지2-2 탐색 시작', keyword)
                             let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 results.push({ // 여행지 값 저장
                                     seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -375,7 +375,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         results.push({ // 여행지 값 저장
                                             seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -407,7 +407,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점2 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -421,7 +421,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -466,7 +466,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('여행지1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
-                        if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 여행지 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -480,7 +480,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 여행지를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 여행지 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -514,7 +514,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -528,7 +528,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -562,7 +562,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('숙소1 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 숙소 탐색
-                        if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                             value.count--; // 해당 숙소 카테고리의 count 1 감소
                             results.push({ // 숙소 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -576,7 +576,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 숙소를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                                     value.count--; // 해당 숙소 카테고리의 count 1 감소
                                     results.push({ // 숙소 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -611,7 +611,7 @@ async function selectDestination(userId) {
                         for (const keyword of value.keywords) {
                             //console.log('여행지2-1 탐색 시작', keyword)
                             let searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                 longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -627,7 +627,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                         longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -651,7 +651,7 @@ async function selectDestination(userId) {
                             }
                             //console.log('여행지2-2 탐색 시작', keyword)
                             let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 results.push({ // 여행지 값 저장
                                     seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -665,7 +665,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         results.push({ // 여행지 값 저장
                                             seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -700,7 +700,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점2 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -714,7 +714,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -748,7 +748,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('숙소2 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 숙소 탐색
-                        if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                             value.count--; // 해당 숙소 카테고리의 count 1 감소
                             results.push({ // 숙소 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -762,7 +762,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 숙소를 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 숙소 값을 찾으면
                                     value.count--; // 해당 숙소 카테고리의 count 1 감소
                                     results.push({ // 숙소 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -797,7 +797,7 @@ async function selectDestination(userId) {
                         for (const keyword of value.keywords) {
                             //console.log('여행지3-1 탐색 시작', keyword)
                             let searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                 longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -813,7 +813,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeywordWithLocation(travel_destination, results, radius, keyword); // 여행지 탐색을 지역 명으로 진행
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         latitude = searchvalue[0].latitude; // 중심좌표 위도 수정(2번째 날의 첫번째 여행지로)
                                         longitude = searchvalue[0].longitude; // 중심좌표 경도 수정(2번째 날의 첫번째 여행지로)
@@ -837,7 +837,7 @@ async function selectDestination(userId) {
                             }
                             //console.log('여행지3-2 탐색 시작', keyword)
                             let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 탐색
-                            if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                            if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                 value.count--; // 해당 여행 카테고리의 count 1 감소
                                 results.push({ // 여행지 값 저장
                                     seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -851,7 +851,7 @@ async function selectDestination(userId) {
                                 while (!else_found) { // 여행지를 찾을 때까지 반복
                                     radius = radius + 5000; // 반경 5km 증가
                                     searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 여행지 재탐색
-                                    if (searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
+                                    if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 여행지 값이 존재하면
                                         value.count--; // 해당 여행 카테고리의 count 1 감소
                                         results.push({ // 여행지 값 저장
                                             seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -886,7 +886,7 @@ async function selectDestination(userId) {
                         }
                         //console.log('음식점3 탐색 시작', keyword)
                         let searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword); // 음식점 탐색
-                        if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                        if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                             value.count--; // 해당 여행 카테고리의 count 1 감소
                             results.push({ // 음식점 값 저장
                                 seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -900,7 +900,7 @@ async function selectDestination(userId) {
                             while (!else_found) { // 음식점을 찾을 때까지 반복
                                 radius = radius + 5000; // 반경 5km 증가
                                 searchvalue = await searchKeyword(latitude, longitude, results, radius, keyword);
-                                if (searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
+                                if (searchvalue.length > 0 && searchvalue[0].result_value === 1) { // 음식점 값을 찾으면
                                     value.count--; // 해당 여행 카테고리의 count 1 감소
                                     results.push({ // 음식점 값 저장
                                         seq: seq_value, day: day, name: searchvalue[0].name, rating: searchvalue[0].rating, latitude: searchvalue[0].latitude,
@@ -923,6 +923,7 @@ async function selectDestination(userId) {
                 }
             }
         }
+        //console.log("여행지 추천이 모두 완료되었습니다.");
         return results;
     }
     catch (error) {
