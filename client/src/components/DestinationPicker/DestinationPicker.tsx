@@ -2,7 +2,12 @@ import { useState } from "react";
 import { NoMarginTitle, Block, StyledButton } from "./styles";
 import { DownOutlined } from "@ant-design/icons";
 
-export default function DestinationPicker() {
+type DestinationPickerType = {
+  destinationRef: React.MutableRefObject<string>;
+};
+export default function DestinationPicker({
+  destinationRef,
+}: DestinationPickerType) {
   const [buttonIdx, setButtonIdx] = useState(0);
   const items = [
     "서울",
@@ -202,6 +207,7 @@ export default function DestinationPicker() {
             <StyledButton
               onClick={() => {
                 setButtonIdx(idx);
+                destinationRef.current = item;
               }}
             >
               {item}
@@ -214,7 +220,11 @@ export default function DestinationPicker() {
           <DownOutlined style={{ marginTop: "30px", color: "#ccc" }} />
           <Block style={{ marginTop: "30px" }}>
             {optionalItems[buttonIdx - 9].map((item) => {
-              return <StyledButton>{item}</StyledButton>;
+              return (
+                <StyledButton onClick={() => (destinationRef.current = item)}>
+                  {item}
+                </StyledButton>
+              );
             })}
           </Block>
         </>

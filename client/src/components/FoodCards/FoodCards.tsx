@@ -1,7 +1,11 @@
 import { NoMarginTitle } from "../DestinationPicker/styles";
 import { CardComponent } from "../CardComponent";
 import { Block } from "../DestinationCards/styles";
-export default function FoodCards() {
+import { useState, useRef } from "react";
+type FoodCardsType = {
+  foodRef: React.MutableRefObject<number[]>;
+};
+export default function FoodCards({ foodRef }: FoodCardsType) {
   const accommodation = [
     "한식",
     "중식",
@@ -10,11 +14,20 @@ export default function FoodCards() {
     "고기/구이",
     "패스트푸드",
   ];
+  const [, setSelected] = useState([0, 0, 0, 0, 0, 0]);
+  const count = useRef(1);
   return (
     <Block>
       <NoMarginTitle>선호하는 음식메뉴를 선택해 주세요.</NoMarginTitle>
       {accommodation.map((item, idx) => (
-        <CardComponent title={item} src={`/src/img/food_${idx}.jpg`} />
+        <CardComponent
+          title={item}
+          src={`/src/img/food_${idx}.jpg`}
+          setSelected={setSelected}
+          idx={idx}
+          selectedRef={foodRef}
+          count={count}
+        />
       ))}
     </Block>
   );
