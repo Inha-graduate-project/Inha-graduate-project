@@ -25,8 +25,6 @@ const personalitiesSchema = new Schema({
     rank_hotel: { type: Number, required: true }, // 숙박_호텔 우선순위
     rank_motel: { type: Number, required: true }, // 숙박_모텔 우선순위
     rank_pension: { type: Number, required: true }, // 숙박_펜션 우선순위
-    transportation: { type: String, required: true } // 교통수단
-
 }, { collection: 'personalities' });
 
 const Personalities = mongoose.model('Personalities', personalitiesSchema);
