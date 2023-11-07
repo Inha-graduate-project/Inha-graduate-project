@@ -15,10 +15,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, w: 'maj
 const app = express(); // express를 사용해 앱 객체를 생성
 app.use(bodyParser.json()); // app에 body-parser의 json 미들웨어를 사용하도록 설정
 
-app.post('/savePersonality', savePersonality); // 사용자 취향(선호도)을 저장하는 api
-app.post('/saveInformation/:user_id', saveInformation); // 여행지 정보를 추천, 저장하는 api
-app.get('/readPersonality/:user_id', readPersonality); // 사용자 취향(선호도)을 가져오는 api
-app.get('/readInformation/:user_id', readInformation); // 저장된 여행지 정보를 가져오는 api
+app.post('/api/savePersonality', savePersonality); // 사용자 취향(선호도)을 저장하는 api
+app.post('/api/saveInformation/:user_id', saveInformation); // 여행지 정보를 추천, 저장하는 api
+app.get('/api/readPersonality/:user_id', readPersonality); // 사용자 취향(선호도)을 가져오는 api
+app.get('/api/readInformation/:user_id', readInformation); // 저장된 여행지 정보를 가져오는 api
 
 const PORT = 8001;
 app.listen(PORT, () => {
