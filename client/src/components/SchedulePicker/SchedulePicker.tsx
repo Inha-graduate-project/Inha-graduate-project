@@ -7,8 +7,10 @@ import { NoMarginTitle } from "../DestinationPicker/styles";
 const { RangePicker } = DatePicker;
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
-
-export default function SchedulePicker() {
+type SchedulePickerType = {
+  dateRef: React.MutableRefObject<string[]>;
+};
+export default function SchedulePicker({ dateRef }: SchedulePickerType) {
   const [dates, setDates] = useState<RangeValue>(null);
   const [value, setValue] = useState<RangeValue>(null);
 
@@ -28,7 +30,13 @@ export default function SchedulePicker() {
       setDates(null);
     }
   };
-
+  const handleDateChange = (val: [string, string]) => {
+    const newDate: string[] = [];
+    val.map((item: string) => {
+      newDate.push(item.replace(/-/g, ""));
+    });
+    dateRef.current = [...newDate];
+  };
   return (
     <>
       <NoMarginTitle>원하는 일정을 선택해 주세요.</NoMarginTitle>
@@ -36,8 +44,10 @@ export default function SchedulePicker() {
         style={{ padding: "16px", width: "30vw" }}
         value={dates || value}
         disabledDate={disabledDate}
-        onCalendarChange={(val) => {
+        onCalendarChange={(val, str) => {
           setDates(val);
+          console.log(val);
+          handleDateChange(str);
         }}
         onChange={(val) => {
           setValue(val);
