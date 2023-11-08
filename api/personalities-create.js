@@ -25,7 +25,8 @@ async function savePersonality(req, res) {
         .then(() => {
             res.json({ // 저장에 성공하면 클라이언트에게 성공 메시지를 json 형태로 응답
                 message: `데이터가 user_id: ${userId}에 성공적으로 저장되었습니다.`,
-                user_id: userId // user_id값 리턴
+                user_id: userId, // user_id값 리턴
+                user_data: userData // user_data 값 리턴
             });
         })
         .catch(() => { // 저장 중 오류가 발생하면 클라이언트에게 오류 메시지를 json 형태로 응답하며, HTTP 상태 코드로 500을 반환
