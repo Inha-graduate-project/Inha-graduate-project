@@ -16,7 +16,8 @@ async function readRoute(req, res) { // 비동기적 동작
                 day: info.route_day, // 여행일
                 address: info.route_address, // 주소
                 location: info.route_location, // 위치(위도와 경도)
-                type: info.route_type // 여행지/음식점/숙소를 나타내는 타입
+                type: info.route_type, // 여행지/음식점/숙소를 나타내는 타입
+                price: info.route_price
             }
             data.push(user_info)
         }

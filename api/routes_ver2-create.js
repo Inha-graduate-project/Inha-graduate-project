@@ -17,7 +17,8 @@ async function saveRoute_ver2(req, res) { // 비동기적 동작
                     route_day: info.day,
                     route_location: info.location,
                     route_address: info.address,
-                    route_type: info.type
+                    route_type: info.type,
+                    route_price: info.price
                 }
 
                 const newRoute = new Routes(user_info);

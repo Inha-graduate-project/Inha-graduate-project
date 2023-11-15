@@ -14,18 +14,18 @@ async function route(userId) {
         // 버스터미널 정보
         let destinations_seq0 = user_info.filter(info => info.information_seq === 0).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 여행지 정보
         let destinations = user_info.filter(info => info.information_type === '여행지' && info.information_seq !== 0).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         }); // 음식점 정보
         let restaurants = user_info.filter(info => info.information_type === '음식점').map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         //console.log(destinations)
@@ -74,37 +74,37 @@ async function route(userId) {
         // 버스터미널 정보
         let destinations_seq0 = user_info.filter(info => info.information_seq === 0).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 여행지 정보
         let destinations_day1 = user_info.filter(info => info.information_type === '여행지' && info.information_seq !== 0 && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 음식점 정보
         let restaurants_day1 = user_info.filter(info => info.information_type === '음식점' && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 숙소 정보
         let accommodations_day1 = user_info.filter(info => info.information_type === '숙소' && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 2일차 여행지 정보
         let destinations_day2 = user_info.filter(info => info.information_type === '여행지' && info.information_day === 2).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 2일차 음식점 정보
         let restaurants_day2 = user_info.filter(info => info.information_type === '음식점' && info.information_day === 2).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 모든 경우의 수
@@ -171,55 +171,55 @@ async function route(userId) {
         // 버스터미널 정보
         let destinations_seq0 = user_info.filter(info => info.information_seq === 0).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 여행지 정보
         let destinations_day1 = user_info.filter(info => info.information_type === '여행지' && info.information_seq !== 0 && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 음식점 정보
         let restaurants_day1 = user_info.filter(info => info.information_type === '음식점' && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 숙소 정보
         let accommodations_day1 = user_info.filter(info => info.information_type === '숙소' && info.information_day === 1).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 2일차 여행지 정보
         let destinations_day2 = user_info.filter(info => info.information_type === '여행지' && info.information_day === 2).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 2일차 음식점 정보
         let restaurants_day2 = user_info.filter(info => info.information_type === '음식점' && info.information_day === 2).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 2일차 숙소 정보
         let accommodations_day2 = user_info.filter(info => info.information_type === '숙소' && info.information_day === 2).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 3일차 여행지 정보
         let destinations_day3 = user_info.filter(info => info.information_type === '여행지' && info.information_day === 3).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 3일차 음식점 정보
         let restaurants_day3 = user_info.filter(info => info.information_type === '음식점' && info.information_day === 3).map(info => {
             return {
-                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address
+                seq: info.information_seq, type: info.information_type, day: info.information_day, name: info.information_name, location: info.information_location, address: info.information_address, price: info.information_price
             }
         });
         // 1일차 모든 경우의 수

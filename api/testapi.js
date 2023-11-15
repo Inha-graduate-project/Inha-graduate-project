@@ -1,5 +1,5 @@
-// informations collection에 데이터 삽입
-const Informations = require('../DB/informations-definition');
+// informations collection에 데이터 삽입 -> route
+const Informations = require('../DB/informations-definition.js');
 const selectDestination = require('../select/selectDestination.js');
 const setBudget = require('../budget/setBudget.js');
 
@@ -8,10 +8,11 @@ async function saveInformation(req, res) { // 비동기적 동작
 
     try {
         const user_info_list = await selectDestination(userId); // 여행지 정보 배열
+        //const informatiin_cost = await setBudget(user_info_list); // 여행 경비
         let information = await setBudget(user_info_list);
+
         // user_info_list 배열의 각 요소를 순회하며 DB에 저장
-        let i = 0; // 경비 값을 저장하기 위한 순회 변수
-        for (const info of user_info_list) {
+        for (const info of information) {
             // 새로운 정보 인스턴스 생성
             const user_info = {
                 user_id: userId, // 유저 id
@@ -21,13 +22,15 @@ async function saveInformation(req, res) { // 비동기적 동작
                 information_location: { latitude: info.latitude, longitude: info.longitude },
                 information_address: info.address,
                 information_type: info.type,
-                information_price: information[i].price
+                information_price: info.price
             }
-            i = i + 1;
+
             const newInformation = new Informations(user_info);
             // 정보를 DB에 저장
             await newInformation.save();
         }
+
+        console.log(information.price);
 
         res.status(200).json({ message: '모든 여행지가 정상적으로 저장되었습니다.' });
 
