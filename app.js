@@ -7,6 +7,7 @@ const readPersonality = require('./api/personalities-read.js'); // 사용자 취
 const saveInformation = require('./api/informations-create.js'); // 여행지 정보를 저장하는 역할
 const readInformation = require('./api/informations-read.js'); // 여행지 정보를 가져오는 역할
 const saveRoute = require('./api/routes-create.js'); // 경로를 저장하는 역할
+const saveRoute_ver2 = require('./api/routes_ver2-create.js'); // 경로를 저장하는 역할 ver2
 const readRoute = require('./api/routes-read.js'); // 경로를 가져오는 역할
 const uri = process.env.uri; // MongoDB Atlas 연결 URI
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json()); // app에 body-parser의 json 미들웨어를 사용
 app.post('/api/savePersonality', savePersonality); // 사용자 취향(선호도)을 저장하는 api
 app.post('/api/saveInformation/:user_id', saveInformation); // 여행지 정보를 추천, 저장하는 api
 app.post('/api/saveRoute/:user_id', saveRoute); // 경로를 저장하는 api
+app.post('/api/saveRoute_ver2/:user_id', saveRoute_ver2); // 경로를 저장하는 api
 app.get('/api/readPersonality/:user_id', readPersonality); // 사용자 취향(선호도)을 가져오는 api
 app.get('/api/readInformation/:user_id', readInformation); // 저장된 여행지 정보를 가져오는 api
 app.get('/api/readRoute/:user_id', readRoute); // 저장된 여행지 정보를 가져오는 api

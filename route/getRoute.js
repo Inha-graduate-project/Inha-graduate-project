@@ -28,6 +28,29 @@ async function getRouteTime(num, locations) {
     }
 }
 
+async function calculation(array) {
+    let minimum_totalTime = Infinity; // 경로 최소 이동시간 (초기값 무한)
+    let minimum_totalTime_index = -1; // 최소 이동시간일 때 인덱스를 구하기 위한 변수
+    for (let i = 0; i < array.length; i++) { // 모든 경우의 수에서
+        let locations = []; // 주소 정보를 종합하는 배열
+        for (let j = 0; j < array[i].length; j++) { // 주소 정보 저장
+            let location_xy = { "x": array[i][j].location.longitude, "y": array[i][j].location.latitude } // x값은 경도, y값은 위도
+            locations.push(location_xy);
+        }
+        let curTotalTime = await getRouteTime(i, locations); // 해당 주소 정보를 바탕으로 경로 이동시간 검색
+        if (curTotalTime < minimum_totalTime) { // 최솟값보다 현재 경로 이동시간이 적다면
+            minimum_totalTime = curTotalTime; // 해당값으로 최솟값 교체
+            minimum_totalTime_index = i; // 인덱스도 현재 인덱스로 교체
+        }
+        //if (i === 5) { // [임시] api 과다 호출을 막기 위한 값
+        //    break;
+        //}
+    }
+    let best_route_index = minimum_totalTime_index; // 최소 이동시간일 때 인덱스
+    return best_route_index
+}
+
 module.exports = {
-    getRouteTime
+    getRouteTime,
+    calculation
 }
