@@ -46,7 +46,6 @@ export default function SchedulePicker({ dateRef }: SchedulePickerType) {
         disabledDate={disabledDate}
         onCalendarChange={(val, str) => {
           setDates(val);
-          console.log(val);
           handleDateChange(str);
         }}
         onChange={(val) => {
