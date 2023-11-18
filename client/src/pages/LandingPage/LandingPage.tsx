@@ -43,7 +43,7 @@ export default function LandingPage() {
   ] = foodRef.current;
   const [rank_hotel, rank_motel, rank_pension] = accommodationRef.current;
 
-  const { mutate } = usePostPersonality({
+  const { mutate, isLoading } = usePostPersonality({
     travel_destination: destinationRef.current,
     start_day,
     finish_day,
@@ -80,7 +80,7 @@ export default function LandingPage() {
           }
           if (page >= 4) {
             mutate();
-            navigate("/course");
+            if (!isLoading) navigate("/course");
           }
         }}
         type="primary"

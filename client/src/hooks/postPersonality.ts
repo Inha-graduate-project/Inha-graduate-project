@@ -9,8 +9,9 @@ const postPersonality = async (personality: Personality): Promise<Personality> =
 	return response.data;
 };
 export function usePostPersonality(personality: Personality) {
+    const storage = window.localStorage;
     return useMutation(() => postPersonality(personality), {
         onSuccess: (response) => {
-        console.log(response);
+        storage.setItem("userId", response.user_id.toString());
     }});
 }

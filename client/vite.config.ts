@@ -11,7 +11,7 @@ export default ({ mode }) => {
         minify: true,
         inject: {
           data: {
-            naverClientId: env.VITE_NAVER_API_KEY
+            kakaoApiKey: env.VITE_KAKAO_API_KEY
           }
         }
       }),

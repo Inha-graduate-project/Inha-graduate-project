@@ -33,7 +33,6 @@ export default function CardComponent({
       selectedRef.current[idx] = 0;
     }
     setSelected([...selectedRef.current]);
-    console.log(selectedRef.current);
   };
   return (
     <Card
