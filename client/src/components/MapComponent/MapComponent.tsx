@@ -1,6 +1,8 @@
-import { useEffect } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { useEffect, useRef } from "react";
+import { Map, MapMarker, Polyline } from "react-kakao-maps-sdk";
+import { useRecoilValue } from "recoil";
 import { usePostRoutesToKaKaoMap } from "../../hooks";
+import { pathState } from "../../state";
 import { Wrapper } from "./styles";
 
 export default function MapComponent() {
@@ -55,23 +57,25 @@ export default function MapComponent() {
       },
     },
   ];
-  const waypoint = locations.map((item) => {
+  const waypoints = locations.map((item) => {
     return {
       x: item.latlng.lng,
       y: item.latlng.lat,
     };
   });
-  const origin = waypoint.shift();
-  const destination = waypoint.pop();
+  const origin = waypoints.shift();
+  const destination = waypoints.pop();
 
   const { mutate, isLoading } = usePostRoutesToKaKaoMap(
     origin,
     destination,
-    waypoint
+    waypoints
   );
   useEffect(() => {
     mutate();
   }, [mutate]);
+  const paths = useRef<{ lat: number; lng: number }[]>([]);
+  paths.current = useRecoilValue(pathState).path;
   return (
     <>
       {isLoading ? (
@@ -83,6 +87,13 @@ export default function MapComponent() {
             style={{ width: "100%", height: "100vh" }}
             level={9}
           >
+            <Polyline
+              path={paths.current}
+              strokeWeight={3}
+              strokeColor={"#1677ff"}
+              strokeOpacity={1}
+              strokeStyle={"solid"}
+            />
             {locations.map((loc) => (
               <MapMarker
                 key={`${loc.title}-${loc.latlng}`}
