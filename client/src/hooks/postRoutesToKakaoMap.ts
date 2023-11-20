@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Coordinate, Routes } from '../types';
+import { pathState } from "../state";
+import { useSetRecoilState } from 'recoil';
 
-const postRoutesToKaKaoMap = async (origin: Coordinate | undefined, destination: Coordinate | undefined, waypoint: (Coordinate | undefined)[]): Promise<Routes> => {
+const postRoutesToKaKaoMap = async (origin: Coordinate | undefined, destination: Coordinate | undefined, waypoints: (Coordinate | undefined)[]): Promise<Routes> => {
 	const response = await axios.post(
 		'https://apis-navi.kakaomobility.com/v1/waypoints/directions', {
             origin: origin,
             destination: destination,
-            waypoint: waypoint,
+            waypoints: waypoints,
         }, {
             headers: {
               "Content-Type": "application/json",
@@ -15,9 +17,23 @@ const postRoutesToKaKaoMap = async (origin: Coordinate | undefined, destination:
         }});
 	return response.data;
 };
-export function usePostRoutesToKaKaoMap(origin: Coordinate | undefined, destination: Coordinate | undefined, waypoint: (Coordinate | undefined)[]) {
-    return useMutation(() => postRoutesToKaKaoMap(origin, destination, waypoint), {
+export function usePostRoutesToKaKaoMap(origin: Coordinate | undefined, destination: Coordinate | undefined, waypoints: (Coordinate | undefined)[]) {
+    const setPath = useSetRecoilState(pathState);
+    return useMutation(() => postRoutesToKaKaoMap(origin, destination, waypoints), {
         onSuccess: (response) => {
-        console.log(response);
+        const newPath: { lat: number; lng: number; }[] = [];
+        response.routes[0].sections.map((section) => {
+            section.roads.map((route) => {
+                for (let i = 0; i < route.vertexes.length; i += 2) {
+                    if (i + 1 < route.vertexes.length) {
+                        const pair = { lng: route.vertexes[i], lat: route.vertexes[i + 1] };
+                        newPath.push(pair);
+                    }
+                }
+            })
+        })
+        setPath({
+            path: [...newPath]
+        });
     }});
 }
