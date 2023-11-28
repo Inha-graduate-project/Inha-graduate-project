@@ -72,7 +72,7 @@ async function setUserDestinationRank(userId) {
         }
 
         const keywords = { // 여행 키워드
-            rank_mountain: ['산', '국립공원', '수목원', '식물원', '계곡'],
+            rank_mountain: ['산 mountain', '국립공원', '수목원', '식물원', '계곡'],
             rank_sea: ['해수욕장'],
             rank_historicalTheme: ['문화유적', '박물관'],
             rank_experienceTheme: ['체험학습장', '체험마을'],

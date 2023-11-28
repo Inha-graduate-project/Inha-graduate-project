@@ -27,7 +27,7 @@ async function recommend(req, res) {
             console.log(`user_id: ${userId} 의 사용자 취향이 성공적으로 저장되었습니다.`)
         })
         .catch(() => {
-            console.log(`사용자 취향 저장에 다음의 이유로 실패했습니다: ${error.message}`);
+            console.log(`사용자 취향 저장에 실패했습니다`);
         });
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 사용자 취향이 정상적으로 저장되었습니다.` });
 
