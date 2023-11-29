@@ -3,77 +3,93 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 const Edits = require('../DB/edits-definition');
 const uri = process.env.uri; // MongoDB Atlas 연결 URI
-const googleMapApiKey = 'AIzaSyBKZmWa9YN7iDFm_PRW4xCprkBjtc3CheY';
-//process.env.googleMapApiKey;
-//'AIzaSyBKZmWa9YN7iDFm_PRW4xCprkBjtc3CheY';
+const googleMapApiKey = process.env.googleMapApiKey;
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, w: 'majority' }) // DB 연결
+    .then(() => console.log('MongoDB가 연결되었습니다.'))
+    .catch(error => console.log('MongoDB 연결에 실패했습니다: ', error));
 
 async function edit(location) {
+    console.log(`${location}의 정보 조회를 시작합니다`)
     const destination_keyword_list = ['산 mountain', '국립공원', '수목원', '식물원', '계곡', '해수욕장', '문화유적', '박물관', '체험학습장', '체험마을', '전망대', '석탑', '카페'];
     let result = [];
-    for (let i = 0; i < 3; i++) {
-        let searchValue = await searchKeywordWithLocation(location, result, 10000, destination_keyword_list[i]);
+    for (let i = 0; i < destination_keyword_list.length; i++) {
+        let searchValue = await searchKeywordWithLocation(location, result, 20000, destination_keyword_list[i]);
         searchValue.sort((a, b) => b.rating - a.rating);
-        let cnt = 0;
         for (let j = 0; j < searchValue.length; j++) {
-            if (searchValue[j].result_value === 1 && cnt < 1) {
+            if (searchValue[j].result_value === 1) {
                 result.push({ // 여행지 값 저장
                     name: searchValue[j].name, rating: searchValue[j].rating, latitude: searchValue[j].latitude,
                     longitude: searchValue[j].longitude, address: searchValue[j].address, place_id: searchValue[j].place_id,
                     result_value: searchValue[j].result_value, place_id: searchValue[j].place_id,
                     type: "여행지", category: destination_keyword_list[i]
                 })
-                cnt = cnt + 1;
             }
             else {
                 break
             }
         }
     }
+    console.log('목적지 정보 저장 완료')
     const food_keyword_list = ['한식', '일식', '중식', '양식', '패스트푸드', '구이'];
-    for (let i = 0; i < 1; i++) {
-        let searchValue = await searchKeywordWithLocation(location, result, 10000, food_keyword_list[i]);
+    for (let i = 0; i < food_keyword_list.length; i++) {
+        let searchValue = await searchKeywordWithLocation(location, result, 20000, food_keyword_list[i]);
         searchValue.sort((a, b) => b.rating - a.rating);
-        let cnt = 0;
         for (let j = 0; j < searchValue.length; j++) {
-            if (searchValue[j].result_value === 1 && cnt < 1) {
+            if (searchValue[j].result_value === 1) {
                 result.push({ // 여행지 값 저장
                     name: searchValue[j].name, rating: searchValue[j].rating, latitude: searchValue[j].latitude,
                     longitude: searchValue[j].longitude, address: searchValue[j].address, place_id: searchValue[j].place_id,
                     result_value: searchValue[j].result_value, place_id: searchValue[j].place_id,
                     type: "음식점", category: food_keyword_list[i]
                 })
-                cnt = cnt + 1;
             }
             else {
                 break
             }
         }
     }
+    console.log('음식점 정보 저장 완료')
     const accommodation_keyword_list = ['호텔', '모텔', '펜션'];
-    for (let i = 0; i < 1; i++) {
-        let searchValue = await searchKeywordWithLocation(location, result, 10000, accommodation_keyword_list[i]);
+    for (let i = 0; i < accommodation_keyword_list.length; i++) {
+        let searchValue = await searchKeywordWithLocation(location, result, 20000, accommodation_keyword_list[i]);
         searchValue.sort((a, b) => b.rating - a.rating);
-        let cnt = 0;
         for (let j = 0; j < searchValue.length; j++) {
-            if (searchValue[j].result_value === 1 && cnt < 1) {
+            if (searchValue[j].result_value === 1) {
                 result.push({ // 여행지 값 저장
                     name: searchValue[j].name, rating: searchValue[j].rating, latitude: searchValue[j].latitude,
                     longitude: searchValue[j].longitude, address: searchValue[j].address, place_id: searchValue[j].place_id,
                     result_value: searchValue[j].result_value, place_id: searchValue[j].place_id,
                     type: "숙소", category: accommodation_keyword_list[i]
                 })
-                cnt = cnt + 1;
             }
             else {
                 break
             }
         }
     }
-    console.log(result.length)
-    console.log(result)
+    console.log('숙박시설 정보 저장 완료')
+    // DB에 정보 저장
+    for (let i = 0; i < result.length; i++) {
+        const user_info = {
+            edit_city: location, // 장소 이름
+            edit_name: result[i].name,
+            edit_rating: result[i].rating,
+            edit_location: { latitude: result[i].latitude, longitude: result[i].longitude },
+            edit_address: result[i].address,
+            edit_type: result[i].type,
+            edit_category: result[i].category,
+            edit_placeID: result[i].place_id
+        }
+        const newEdit = new Edits(user_info);
+        await newEdit.save();
+    }
+    console.log("DB 저장 완료")
+    mongoose.connection.close(); // DB 연결 종료
 }
 
-edit('구리시')
+
+edit('제주')
 
 // 여행지 탐색 함수(지역 + 키워드 기반)
 async function searchKeywordWithLocation(locationName, result, radius, keyword) {
