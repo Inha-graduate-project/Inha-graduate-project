@@ -12,7 +12,7 @@ const routesSchema = new Schema({
     route_location: { type: Object, required: true }, // 위도 및 경도 정보
     route_address: { type: String, required: true }, // 주소
     route_type: { type: String, required: false }, // 타입(여행지, 음식점, 숙소)
-    route_cost: { type: Number, required: false } // 경비
+    route_price: { type: Number, required: false } // 경비
 }, { collection: 'routes' });
 
 const Routes = mongoose.model('routes', routesSchema);
