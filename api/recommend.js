@@ -66,8 +66,16 @@ async function recommend(req, res) {
         for (let j = 0; j < user_route_list[i].length; j++) {
             for (let k = 0; k < budgets.length; k++) {
                 if (user_route_list[i][j].name == budgets[k].placeName) {
-                    user_route_list[i][j].price = budgets[k].price;
-                    break;
+                    if (user_route_list[i][j].type == '음식점') {
+                        user_route_list[i][j].price = budgets[k].price;
+                        user_route_list[i][j].menu = budgets[k].name;
+                        user_route_list[i][j].image = budgets[k].image;
+                        break;
+                    }
+                    else {
+                        user_route_list[i][j].price = budgets[k].price;
+                        break;
+                    }
                 }
             }
         }
@@ -85,7 +93,9 @@ async function recommend(req, res) {
                 route_address: info.address,
                 route_type: info.type,
                 route_price: info.price,
-                route_imageUrl: info.image_url
+                route_imageUrl: info.image_url,
+                food_name: info.menu,
+                food_imageUrl: info.image
             }
             const newRoute = new Routes(user_info);
             // 정보를 DB에 저장
@@ -109,7 +119,9 @@ async function recommend(req, res) {
             location: info.route_location, // 위치(위도와 경도)
             type: info.route_type, // 여행지/음식점/숙소를 나타내는 타입,
             price: info.route_price, // 가격
-            image_url: info.route_imageUrl // 이미지 url
+            image_url: info.route_imageUrl, // 이미지 url
+            food_name: info.food_name, // 음식 메뉴이름
+            food_imageUrl: info.food_imageUrl // 음식 메뉴 이미지 url
         }
         data.push(user_info)
     }
