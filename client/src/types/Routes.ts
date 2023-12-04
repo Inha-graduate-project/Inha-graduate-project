@@ -23,6 +23,12 @@ export interface Routes {
                 traffic_state: number,
                 vertexes: number[],
             }],
-        }]
+        }],
+        summary: {
+            distance: number,
+            fare: {
+                taxi: number,
+            },
+        }
     }]
 }

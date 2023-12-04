@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { NoMarginTitle, Block, StyledButton } from "./styles";
 import { DownOutlined } from "@ant-design/icons";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { userState } from "../../state";
 
-type DestinationPickerType = {
-  destinationRef: React.MutableRefObject<string>;
-};
-export default function DestinationPicker({
-  destinationRef,
-}: DestinationPickerType) {
+export default function DestinationPicker() {
   const [buttonIdx, setButtonIdx] = useState(0);
   const items = [
     "서울",
@@ -198,6 +195,8 @@ export default function DestinationPicker({
       "산청",
     ],
   ];
+  const setUser = useSetRecoilState(userState);
+  const user = useRecoilValue(userState);
   return (
     <>
       <NoMarginTitle>원하는 지역을 선택해 주세요.</NoMarginTitle>
@@ -207,7 +206,7 @@ export default function DestinationPicker({
             <StyledButton
               onClick={() => {
                 setButtonIdx(idx);
-                destinationRef.current = item;
+                setUser({ ...user, travel_destination: item });
               }}
             >
               {item}
@@ -221,7 +220,9 @@ export default function DestinationPicker({
           <Block style={{ marginTop: "30px" }}>
             {optionalItems[buttonIdx - 9].map((item) => {
               return (
-                <StyledButton onClick={() => (destinationRef.current = item)}>
+                <StyledButton
+                  onClick={() => setUser({ ...user, travel_destination: item })}
+                >
                   {item}
                 </StyledButton>
               );

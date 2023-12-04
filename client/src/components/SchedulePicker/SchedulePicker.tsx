@@ -3,16 +3,17 @@ import { useState } from "react";
 import { DatePicker } from "antd";
 import { TopMarginText } from "./styles";
 import { NoMarginTitle } from "../DestinationPicker/styles";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { userState } from "../../state";
 
 const { RangePicker } = DatePicker;
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
-type SchedulePickerType = {
-  dateRef: React.MutableRefObject<string[]>;
-};
-export default function SchedulePicker({ dateRef }: SchedulePickerType) {
+export default function SchedulePicker() {
   const [dates, setDates] = useState<RangeValue>(null);
   const [value, setValue] = useState<RangeValue>(null);
+  const setUser = useSetRecoilState(userState);
+  const user = useRecoilValue(userState);
 
   const disabledDate = (current: Dayjs) => {
     if (!dates) {
@@ -35,8 +36,14 @@ export default function SchedulePicker({ dateRef }: SchedulePickerType) {
     val.map((item: string) => {
       newDate.push(item.replace(/-/g, ""));
     });
-    dateRef.current = [...newDate];
+    setUser({
+      ...user,
+      start_day: newDate[0],
+      finish_day: newDate[1],
+      travel_day: Number(newDate[0]) - Number(newDate[1]) + 1,
+    });
   };
+
   return (
     <>
       <NoMarginTitle>원하는 일정을 선택해 주세요.</NoMarginTitle>

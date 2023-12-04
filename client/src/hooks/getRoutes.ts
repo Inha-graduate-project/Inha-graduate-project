@@ -2,12 +2,12 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { Routes } from '../types';
 
-const getRoutes = async (userId: number): Promise<Routes[]> => {
+const getRoutes = async (): Promise<Routes[]> => {
 	const response = await axios.get(
-		`/api/readRoute/${userId}`
+		'/api/recommend'
 	);
 	return response.data.data;
 };
-export function useGetRoutes(userId: number) {
-	return useQuery("get-routes", () => getRoutes(userId));
+export function useGetRoutes() {
+	return useQuery("get-routes", () => getRoutes());
 }

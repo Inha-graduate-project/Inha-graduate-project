@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Coordinate, Routes } from '../types';
-import { pathState } from "../state";
-import { useSetRecoilState } from 'recoil';
+import { pathState, priceState } from "../state";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const postRoutesToKaKaoMap = async (origin: Coordinate | undefined, destination: Coordinate | undefined, waypoints: (Coordinate | undefined)[]): Promise<Routes> => {
 	const response = await axios.post(
@@ -19,6 +19,8 @@ const postRoutesToKaKaoMap = async (origin: Coordinate | undefined, destination:
 };
 export function usePostRoutesToKaKaoMap(origin: Coordinate | undefined, destination: Coordinate | undefined, waypoints: (Coordinate | undefined)[]) {
     const setPath = useSetRecoilState(pathState);
+    const setPrice = useSetRecoilState(priceState);
+    const price = useRecoilValue(priceState);
     return useMutation(() => postRoutesToKaKaoMap(origin, destination, waypoints), {
         onSuccess: (response) => {
         const newPath: { lat: number; lng: number; }[] = [];
@@ -32,6 +34,7 @@ export function usePostRoutesToKaKaoMap(origin: Coordinate | undefined, destinat
                 }
             })
         })
+        setPrice({...price, taxi: response.routes[0].summary.fare.taxi, distance: response.routes[0].summary.distance})
         setPath({
             path: [...newPath]
         });

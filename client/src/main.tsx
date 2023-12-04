@@ -5,19 +5,25 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
 import "./index.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      suspense: true,
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: "Noto Sans KR",
-          },
-        }}
-      >
-        <App />
-      </ConfigProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: "Noto Sans KR",
+        },
+      }}
+    >
+      <App />
+    </ConfigProvider>
+  </QueryClientProvider>
 );
