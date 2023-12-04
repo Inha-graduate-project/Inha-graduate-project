@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Drawer, Layout } from "antd";
 import styled from "styled-components";
 
 const { Sider } = Layout;
@@ -15,3 +15,6 @@ export const Container = styled(Sider)`
     }
 `;
 
+export const StyledDrawer = styled(Drawer)`
+    margin-left: 400px;
+`;

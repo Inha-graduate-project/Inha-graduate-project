@@ -2,10 +2,8 @@ import { Block } from "./styles";
 import { NoMarginTitle } from "../DestinationPicker/styles";
 import { CardComponent } from "../CardComponent";
 import { useRef, useState } from "react";
-type DestinationCardsType = {
-  themeRef: React.MutableRefObject<number[]>;
-};
-export default function DestinationCards({ themeRef }: DestinationCardsType) {
+
+export default function DestinationCards() {
   const destination = [
     "산",
     "바다",
@@ -14,7 +12,7 @@ export default function DestinationCards({ themeRef }: DestinationCardsType) {
     "건축/조형물",
     "카페",
   ];
-  const [, setSelected] = useState([0, 0, 0, 0, 0, 0]);
+  const [selected, setSelected] = useState([0, 0, 0, 0, 0, 0]);
   const count = useRef(1);
   return (
     <Block>
@@ -25,8 +23,9 @@ export default function DestinationCards({ themeRef }: DestinationCardsType) {
           src={`/src/img/destination_${idx}.jpg`}
           setSelected={setSelected}
           idx={idx}
-          selectedRef={themeRef}
           count={count}
+          selected={selected}
+          type="destination"
         />
       ))}
     </Block>

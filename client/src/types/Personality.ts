@@ -1,5 +1,4 @@
 export interface Personality {
-    user_id: number,
     travel_destination: string,
     start_day: string,
     finish_day: string,

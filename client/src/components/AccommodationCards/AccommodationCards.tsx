@@ -2,14 +2,10 @@ import { NoMarginTitle } from "../DestinationPicker/styles";
 import { CardComponent } from "../CardComponent";
 import { Block } from "../DestinationCards/styles";
 import { useRef, useState } from "react";
-type AccommodationCardsType = {
-  accommodationRef: React.MutableRefObject<number[]>;
-};
-export default function AccommodationCards({
-  accommodationRef,
-}: AccommodationCardsType) {
+
+export default function AccommodationCards() {
   const accommodation = ["호텔", "펜션", "모텔"];
-  const [, setSelected] = useState([0, 0, 0]);
+  const [selected, setSelected] = useState([0, 0, 0]);
   const count = useRef(1);
   return (
     <Block>
@@ -20,8 +16,9 @@ export default function AccommodationCards({
           src={`/src/img/accommodation_${idx}.jpg`}
           setSelected={setSelected}
           idx={idx}
-          selectedRef={accommodationRef}
+          selected={selected}
           count={count}
+          type="accommodate"
         />
       ))}
     </Block>

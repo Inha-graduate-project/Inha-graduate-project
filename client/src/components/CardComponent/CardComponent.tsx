@@ -1,5 +1,7 @@
 import { Card } from "antd";
 import { Dispatch, SetStateAction } from "react";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { userState } from "../../state";
 import { CardCircle } from "./styles";
 
 interface CardComponentType {
@@ -7,8 +9,9 @@ interface CardComponentType {
   src: string;
   setSelected: Dispatch<SetStateAction<number[]>>;
   idx: number;
-  selectedRef: React.MutableRefObject<number[]>;
   count: React.MutableRefObject<number>;
+  selected: number[];
+  type: string;
 }
 const { Meta } = Card;
 export default function CardComponent({
@@ -16,23 +19,60 @@ export default function CardComponent({
   src,
   setSelected,
   idx,
-  selectedRef,
+  selected,
   count,
+  type,
 }: CardComponentType) {
+  const setUser = useSetRecoilState(userState);
+  const user = useRecoilValue(userState);
   const HandleSelect = () => {
-    if (selectedRef.current[idx] < 1) {
-      selectedRef.current[idx] += count.current;
+    if (selected[idx] < 1) {
+      selected[idx] += count.current;
       count.current++;
     } else {
-      selectedRef.current.forEach((item, index) => {
-        if (item > selectedRef.current[idx]) {
-          selectedRef.current[index]--;
+      selected.forEach((item, index) => {
+        if (item > selected[idx]) {
+          selected[index]--;
         }
       });
       count.current--;
-      selectedRef.current[idx] = 0;
+      selected[idx] = 0;
     }
-    setSelected([...selectedRef.current]);
+    setSelected([...selected]);
+    switch (type) {
+      case "destination": {
+        setUser({
+          ...user,
+          rank_mountain: selected[0],
+          rank_sea: selected[1],
+          rank_historicalTheme: selected[2],
+          rank_experienceTheme: selected[3],
+          rank_buildingTheme: selected[4],
+          rank_cafe: selected[5],
+        });
+        break;
+      }
+      case "food": {
+        setUser({
+          ...user,
+          rank_koreanfood: selected[0],
+          rank_japanesefood: selected[1],
+          rank_chinesefood: selected[2],
+          rank_westernfood: selected[3],
+          rank_fastfood: selected[4],
+          rank_meat: selected[5],
+        });
+        break;
+      }
+      default: {
+        setUser({
+          ...user,
+          rank_hotel: selected[0],
+          rank_motel: selected[1],
+          rank_pension: selected[2],
+        });
+      }
+    }
   };
   return (
     <Card
@@ -40,14 +80,14 @@ export default function CardComponent({
       hoverable
       style={{
         width: 200,
-        outline: selectedRef.current[idx] > 0 ? "3px solid #80b5ff" : "none",
+        outline: selected[idx] > 0 ? "3px solid #80b5ff" : "none",
       }}
       cover={
         <>
           <img style={{ height: 114 }} alt="example" src={src} />
-          {selectedRef.current[idx] > 0 && (
+          {selected[idx] > 0 && (
             <CardCircle>
-              <span>{selectedRef.current[idx]}</span>
+              <span>{selected[idx]}</span>
             </CardCircle>
           )}
         </>
