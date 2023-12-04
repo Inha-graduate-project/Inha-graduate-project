@@ -3,6 +3,7 @@ const Informations = require('../DB/informations-definition.js');
 const selectDestination = require('../select/selectDestination.js');
 const Routes = require('../DB/routes-definition.js');
 const route_ver2 = require('../route/route_ver2.js');
+const setBudget = require('../budget/budget.js')
 
 async function recommend(req, res) {
     // 1. 사용자 취향 저장
@@ -43,7 +44,8 @@ async function recommend(req, res) {
             information_day: info.day,
             information_location: { latitude: info.latitude, longitude: info.longitude },
             information_address: info.address,
-            information_type: info.type
+            information_type: info.type,
+            information_price: 0
         }
         const newInformation = new Informations(user_info);
         // 정보를 DB에 저장
@@ -52,11 +54,27 @@ async function recommend(req, res) {
     console.log(`user_id: ${userId} 의 여행지가 정상적으로 저장되었습니다.`);
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 여행지가 정상적으로 저장되었습니다.` });
 
-    // 3. 경로 계산
-    user_info_list = await route_ver2(userId); // 경로 정보 배열
+    // 3-1. 경로 계산 및 경비 계산
+    user_info_list = await Informations.find({ user_id: userId });
+    let [user_route_list, budgets] = await Promise.all([ // 경로 및 경비 동시 계산
+        route_ver2(userId),
+        setBudget(user_info_list)
+    ]);
+    // 경로 데이터에 경비 값 추가
+    for (let i = 0; i < user_route_list.length; i++) {
+        for (let j = 0; j < user_route_list[i].length; j++) {
+            for (let k = 0; k < budgets.length; k++) {
+                if (user_route_list[i][j].name == budgets[k].placeName) {
+                    user_route_list[i][j].price = budgets[k].price;
+                    break;
+                }
+            }
+        }
+    }
+    // 3-2. 경로 저장
     // user_info_list 배열의 각 요소를 순회하며 DB에 저장
-    for (let i = 0; i < user_info_list.length; i++) {
-        for (const info of user_info_list[i]) {
+    for (let i = 0; i < user_route_list.length; i++) {
+        for (const info of user_route_list[i]) {
             // 새로운 정보 인스턴스 생성
             const user_info = {
                 user_id: userId, // 유저 id
@@ -64,7 +82,8 @@ async function recommend(req, res) {
                 route_day: info.day,
                 route_location: info.location,
                 route_address: info.address,
-                route_type: info.type
+                route_type: info.type,
+                route_price: info.price
             }
             const newRoute = new Routes(user_info);
             // 정보를 DB에 저장
@@ -86,7 +105,8 @@ async function recommend(req, res) {
             day: info.route_day, // 여행일
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)
-            type: info.route_type // 여행지/음식점/숙소를 나타내는 타입
+            type: info.route_type, // 여행지/음식점/숙소를 나타내는 타입,
+            price: info.route_price // 가격
         }
         data.push(user_info)
     }
