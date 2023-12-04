@@ -41,7 +41,6 @@ async function getRestaurant(driver, placeName, placeAddress, type) {
             menuPrice = menuPrice.replace(/[^\d]/g, '');
 
             let totalTag = await driver.wait(until.elementLocated(By.className('JLkY7')), 3000);//이름
-            await totalTag.wait(until.elementLocated(By.className('A_cdD')), 3000);
             let nameElement2 = await totalTag.findElement(By.className('A_cdD'));
             menuName = await nameElement2.getText();
 
