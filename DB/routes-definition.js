@@ -13,7 +13,9 @@ const routesSchema = new Schema({
     route_address: { type: String, required: true }, // 주소
     route_type: { type: String, required: false }, // 타입(여행지, 음식점, 숙소)
     route_price: { type: Number, required: false }, // 경비
-    route_imageUrl: { type: String, required: false } // 이미지 url
+    route_imageUrl: { type: String, required: false }, // 이미지 url
+    food_name: { type: String, required: false }, // 음식점의 메뉴 이름
+    food_imageUrl: { type: String, required: false } // 음식점의 메뉴 이미지 url
 }, { collection: 'routes' });
 
 const Routes = mongoose.model('routes', routesSchema);

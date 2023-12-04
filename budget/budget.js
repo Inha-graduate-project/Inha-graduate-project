@@ -6,6 +6,8 @@ let accommodationPrice = 0;
 let menuPrice = 0;
 let travelPrice = 0;
 let totalPrice = 0;
+let menuName = "";
+let menuImage = "";
 
 async function getRestaurant(driver, placeName, placeAddress, type) {
     //search
@@ -16,28 +18,56 @@ async function getRestaurant(driver, placeName, placeAddress, type) {
 
     //getPrice
     try {
-        await driver.wait(until.elementLocated(By.className('gl2cc')), 3000);
+        await driver.wait(until.elementLocated(By.className('gl2cc')), 3000);//가격
         let priceArrElement1 = await driver.findElement(By.className('gl2cc'));
         menuPrice = await priceArrElement1.getText();
+        menuPrice = menuPrice.replace(/^([\d,]+)~/, '');
         menuPrice = menuPrice.replace(/[^\d]/g, '');
+
+        await driver.wait(until.elementLocated(By.className('VQvNX')), 3000);//이름
+        let nameElement1 = await driver.findElement(By.className('VQvNX'));
+        menuName = await nameElement1.getText();
+
+        await driver.wait(until.elementLocated(By.className('place_thumb')), 3000);//사진
+        let imageElement1 = await driver.findElement(By.css('.place_thumb img'));
+        menuImage = await imageElement1.getAttribute('src');
+
     } catch (error1) {
         try {
-            await driver.wait(until.elementLocated(By.className('CLSES')), 3000);
+            await driver.wait(until.elementLocated(By.className('CLSES')), 3000);//가격
             let priceArrElement2 = await driver.findElement(By.className('CLSES'));
             menuPrice = await priceArrElement2.getText();
+            menuPrice = menuPrice.replace(/^([\d,]+)~/, '');
             menuPrice = menuPrice.replace(/[^\d]/g, '');
+
+            let totalTag = await driver.wait(until.elementLocated(By.className('JLkY7')), 3000);//이름
+            await totalTag.wait(until.elementLocated(By.className('A_cdD')), 3000);
+            let nameElement2 = await totalTag.findElement(By.className('A_cdD'));
+            menuName = await nameElement2.getText();
+
+            menuImage = null; //사진
+
         } catch (error2) {
             try {
-                await driver.wait(until.elementLocated(By.className('mkBm3')), 3000);
+                await driver.wait(until.elementLocated(By.className('mkBm3')), 3000);//가격
                 let priceArrElement3 = await driver.findElement(By.className('mkBm3'));
                 menuPrice = await priceArrElement3.getText();
+                menuPrice = menuPrice.replace(/^([\d,]+)~/, '');
                 menuPrice = menuPrice.replace(/[^\d]/g, '');
+
+                await driver.wait(until.elementLocated(By.className('Fi0vA')), 3000);//이름
+                let nameElement3 = await driver.findElement(By.className('Fi0vA'));
+                menuName = await nameElement3.getText();
+
+                menuImage = null; //사진
+
             } catch (error3) {
                 menuPrice = 0;
+                menuImage = null;
+                menuName = null;
             }
         }
     }
-
 }
 
 async function getAccommodation(driver, placeName, placeAddress, type) {
@@ -113,10 +143,14 @@ async function setBudget(user_info_list) {
                 if (menuPrice === 0) menuPrice = 12000;
                 results.push({
                     placeName: placeName,
-                    price: menuPrice
+                    price: menuPrice,
+                    name: menuName,
+                    image: menuImage
                 });
                 //console.log(placeName);
                 //console.log(menuPrice);
+                //console.log(menuName);
+                //console.log(menuImage);
                 totalPrice += Number(menuPrice);
             } else if (type === '여행지') {
                 // 여행지의 경우 가격 0
