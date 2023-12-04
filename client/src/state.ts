@@ -68,8 +68,21 @@ export const travelState = atom<string>({
     effects_UNSTABLE: [persistAtom],
 })
 
-export const priceState = atom<{title: string, price: number}[]>({
+export const priceState = atom<{
+    items: {
+        title: string,
+        foodName: string,
+        price: number,
+        img: string,
+    }[],
+    taxi: number,
+    distance: number,
+}>({
     key: 'price',
-    default: [],
+    default: {
+        items: [],
+        taxi: 0,
+        distance: 0,
+    },
     effects_UNSTABLE: [persistAtom],
 })

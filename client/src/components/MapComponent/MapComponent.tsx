@@ -50,7 +50,7 @@ export default function MapComponent() {
                   }
             }
             style={{ width: "100%", height: "100vh" }}
-            level={7}
+            level={8}
           >
             <Polyline
               path={paths.current}

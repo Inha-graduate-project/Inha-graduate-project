@@ -32,9 +32,15 @@ export function usePostPersonality(personality: Personality) {
             items: []
         };
         const newPrices: {
-            title: string;
-            price: number;
-        }[] = [];
+            items: {
+                title: string;
+                price: number;
+                img: string;
+                foodName: string;
+            }[];
+        } = {
+            items: []
+        };
         response.map((item, idx) => {
             if(idx !== 0) {
                 newCourses.items.push({
@@ -50,14 +56,16 @@ export function usePostPersonality(personality: Personality) {
                     img: item.image_url,
                 });
                 if(item.type === '음식점' || item.type === '숙소') {
-                    newPrices.push({
+                    newPrices.items.push({
+                        foodName: item.food_name ?? '알수없음',
                         title: item.name,
-                        price: item.price,
+                        price: item.price ?? 12000,
+                        img: item.food_imageUrl ?? item.image_url,
                     });
                 }
             }
         })
-        setPrice(newPrices);
+        setPrice({...newPrices, taxi: 0, distance: 0,});
         console.log(newCourses);
         setCourse(newCourses);
     }});
