@@ -8,4 +8,5 @@ export interface Course {
     name: string;
     type: string;
     price: number;
+    image_url: string;
 }

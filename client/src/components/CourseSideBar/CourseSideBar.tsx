@@ -48,9 +48,7 @@ export default function CourseSideBar() {
                 title={item.children}
                 address={item.address}
                 type={item.type}
-                img={
-                  "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20150831_76%2F1441025139566jlxeJ_JPEG%2F126362588156648_0.jpg"
-                }
+                img={item.img}
               />
             );
           })}

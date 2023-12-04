@@ -1,5 +1,5 @@
-import { Block, Content, StyledTitle } from "./styles";
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { Block, Content, ImageContainer, StyledTitle } from "./styles";
+import { EnvironmentOutlined, FileImageOutlined } from "@ant-design/icons";
 
 interface CourseItems {
   title: string;
@@ -15,7 +15,16 @@ export default function CourseItems({
 }: CourseItems) {
   return (
     <Block>
-      <img src={img} style={{ width: "160px" }} />
+      <ImageContainer>
+        {img ? (
+          <img
+            src={img}
+            style={{ width: "160px", height: "100px", objectFit: "cover" }}
+          />
+        ) : (
+          <FileImageOutlined width={24} />
+        )}
+      </ImageContainer>
       <Content>
         <span>{type}</span>
         <StyledTitle level={4}>{title}</StyledTitle>

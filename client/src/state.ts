@@ -17,6 +17,7 @@ export interface CourseTypes {
         address: string;
         type: string;
         day: number;
+        img: string;
     }[];
 }
 

@@ -26,6 +26,7 @@ export function usePostPersonality(personality: Personality) {
                 type: string;
                 day: number;
                 price: number;
+                img: string;
             }[],
         } = {
             items: []
@@ -46,6 +47,7 @@ export function usePostPersonality(personality: Personality) {
                     type: item.type,
                     day: item.day,
                     price: item.price,
+                    img: item.image_url,
                 });
                 if(item.type === '음식점' || item.type === '숙소') {
                     newPrices.push({
@@ -56,7 +58,7 @@ export function usePostPersonality(personality: Personality) {
             }
         })
         setPrice(newPrices);
-        console.log(newPrices);
+        console.log(newCourses);
         setCourse(newCourses);
     }});
 }
