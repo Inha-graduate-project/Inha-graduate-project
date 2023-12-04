@@ -45,7 +45,8 @@ async function recommend(req, res) {
             information_location: { latitude: info.latitude, longitude: info.longitude },
             information_address: info.address,
             information_type: info.type,
-            information_price: 0
+            information_price: 0,
+            information_imageUrl: info.image_url
         }
         const newInformation = new Informations(user_info);
         // 정보를 DB에 저장
@@ -83,7 +84,8 @@ async function recommend(req, res) {
                 route_location: info.location,
                 route_address: info.address,
                 route_type: info.type,
-                route_price: info.price
+                route_price: info.price,
+                route_imageUrl: info.image_url
             }
             const newRoute = new Routes(user_info);
             // 정보를 DB에 저장
@@ -106,7 +108,8 @@ async function recommend(req, res) {
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)
             type: info.route_type, // 여행지/음식점/숙소를 나타내는 타입,
-            price: info.route_price // 가격
+            price: info.route_price, // 가격
+            image_url: info.route_imageUrl // 이미지 url
         }
         data.push(user_info)
     }

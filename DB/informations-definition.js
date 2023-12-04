@@ -12,7 +12,8 @@ const informationsSchema = new Schema({
     information_location: { type: Object, required: true }, // 위도 및 경도 정보
     information_address: { type: String, required: true }, // 주소
     information_type: { type: String, required: false }, // 타입(여행지, 음식점, 숙소)
-    information_price: { type: Number, required: false } // 경비
+    information_price: { type: Number, required: false }, // 경비
+    information_imageUrl: { type: String, required: false } // 이미지 url
 }, { collection: 'informations' });
 
 const Informations = mongoose.model('informations', informationsSchema);
