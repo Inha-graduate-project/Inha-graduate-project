@@ -63,44 +63,40 @@ async function recommend(req, res) {
     ]);
     // 경로 데이터에 경비 값 추가
     for (let i = 0; i < user_route_list.length; i++) {
-        for (let j = 0; j < user_route_list[i].length; j++) {
-            for (let k = 0; k < budgets.length; k++) {
-                if (user_route_list[i][j].name == budgets[k].placeName) {
-                    if (user_route_list[i][j].type == '음식점') {
-                        user_route_list[i][j].price = budgets[k].price;
-                        user_route_list[i][j].menu = budgets[k].name;
-                        user_route_list[i][j].image = budgets[k].image;
-                        break;
-                    }
-                    else {
-                        user_route_list[i][j].price = budgets[k].price;
-                        break;
-                    }
+        for (let k = 0; k < budgets.length; k++) {
+            if (user_route_list[i].name == budgets[k].placeName) {
+                if (user_route_list[i].type == '음식점') {
+                    user_route_list[i].price = budgets[k].price;
+                    user_route_list[i].menu = budgets[k].name;
+                    user_route_list[i].image = budgets[k].image;
+                    break;
+                }
+                else {
+                    user_route_list[i].price = budgets[k].price;
+                    break;
                 }
             }
         }
+
     }
     // 3-2. 경로 저장
     // user_info_list 배열의 각 요소를 순회하며 DB에 저장
     for (let i = 0; i < user_route_list.length; i++) {
-        for (const info of user_route_list[i]) {
-            // 새로운 정보 인스턴스 생성
-            const user_info = {
-                user_id: userId, // 유저 id
-                route_name: info.name, // 장소 이름
-                route_day: info.day,
-                route_location: info.location,
-                route_address: info.address,
-                route_type: info.type,
-                route_price: info.price,
-                route_imageUrl: info.image_url,
-                food_name: info.menu,
-                food_imageUrl: info.image
-            }
-            const newRoute = new Routes(user_info);
-            // 정보를 DB에 저장
-            await newRoute.save();
+        const user_info = {
+            user_id: userId, // 유저 id
+            route_name: user_route_list[i].name, // 장소 이름
+            route_day: user_route_list[i].day,
+            route_location: user_route_list[i].location,
+            route_address: user_route_list[i].address,
+            route_type: user_route_list[i].type,
+            route_price: user_route_list[i].price,
+            route_imageUrl: user_route_list[i].image_url,
+            food_name: user_route_list[i].menu,
+            food_imageUrl: user_route_list[i].image
         }
+        const newRoute = new Routes(user_info);
+        // 정보를 DB에 저장
+        await newRoute.save();
     }
     console.log(`user_id: ${userId} 의 경로가 정상적으로 저장되었습니다.`);
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 경로가 정상적으로 저장되었습니다.` });
