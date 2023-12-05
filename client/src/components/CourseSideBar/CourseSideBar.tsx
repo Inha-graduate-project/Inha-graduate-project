@@ -1,8 +1,14 @@
 import { Divider, Popover, Tabs, Timeline, Typography } from "antd";
 import { useState } from "react";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useRecoilValue } from "recoil";
-import { courseState, priceState, travelState, userState } from "../../state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  courseState,
+  dayState,
+  priceState,
+  travelState,
+  userState,
+} from "../../state";
 import { CourseItems } from "../CourseItems";
 import {
   Container,
@@ -18,8 +24,9 @@ export default function CourseSideBar() {
   const travel = useRecoilValue(travelState);
   const price = useRecoilValue(priceState);
   const user = useRecoilValue(userState);
-  const day = user.travel_day;
-  console.log(price);
+  const setDay = useSetRecoilState(dayState);
+  const day = useRecoilValue(dayState);
+  const travelDay = user.travel_day;
   const totalPrice = price.items.reduce((acc, cur) => acc + cur.price, 0);
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
@@ -28,6 +35,7 @@ export default function CourseSideBar() {
   const onClose = () => {
     setOpen(false);
   };
+
   const popover =
     "가장 저렴한 메뉴/객실의 가격을 바탕으로 계산되었으며, 정확한 수치가 아닐 수 있으니 참고용으로 이용 바랍니다.";
   return (
@@ -37,12 +45,13 @@ export default function CourseSideBar() {
         <Tabs
           defaultActiveKey="1"
           centered
-          items={new Array(day).fill(null).map((_, i) => {
+          onChange={(activeKey) => setDay(Number(activeKey) - 1)}
+          items={new Array(travelDay).fill(null).map((_, i) => {
             const id = String(i + 1);
             return {
               label: `Day ${id}`,
               key: id,
-              children: <Timeline items={course} mode="alternate" />,
+              children: <Timeline items={course[i]} mode="alternate" />,
             };
           })}
         />
@@ -65,7 +74,7 @@ export default function CourseSideBar() {
           </StyledButton>
         </PriceContainer>
         <>
-          {course.map((item) => {
+          {course[day].map((item) => {
             return (
               <CourseItems
                 title={item.children}

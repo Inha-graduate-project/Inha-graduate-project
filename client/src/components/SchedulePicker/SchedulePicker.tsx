@@ -5,11 +5,16 @@ import { TopMarginText } from "./styles";
 import { NoMarginTitle } from "../DestinationPicker/styles";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../state";
+import React from "react";
 
 const { RangePicker } = DatePicker;
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
-export default function SchedulePicker() {
+
+interface SchedulePickerProps {
+  dayRef: React.MutableRefObject<number>;
+}
+export default function SchedulePicker({ dayRef }: SchedulePickerProps) {
   const [dates, setDates] = useState<RangeValue>(null);
   const [value, setValue] = useState<RangeValue>(null);
   const setUser = useSetRecoilState(userState);
@@ -40,8 +45,9 @@ export default function SchedulePicker() {
       ...user,
       start_day: newDate[0],
       finish_day: newDate[1],
-      travel_day: Number(newDate[0]) - Number(newDate[1]) + 1,
+      travel_day: Number(newDate[1]) - Number(newDate[0]) + 1,
     });
+    dayRef.current = Number(newDate[1]) - Number(newDate[0]) + 1;
   };
 
   return (

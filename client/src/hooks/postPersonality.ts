@@ -65,8 +65,26 @@ export function usePostPersonality(personality: Personality) {
                 }
             }
         })
+        const groupedCourses: {
+            items: {
+                children: string;
+                location: {
+                    lat: number;
+                    lng: number;
+                },
+                address: string;
+                type: string;
+                day: number;
+                img: string;
+            }[][]
+        } = {
+            items: []
+        };
+        for (let i = 0; i < newCourses.items.length; i += 8) {
+            groupedCourses.items.push(newCourses.items.slice(i, i + 8));
+        }
+
+        setCourse(groupedCourses);
         setPrice({...newPrices, taxi: 0, distance: 0,});
-        console.log(newCourses);
-        setCourse(newCourses);
     }});
 }
