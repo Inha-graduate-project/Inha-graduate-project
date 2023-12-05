@@ -990,7 +990,7 @@ async function searchKeyword(latitude, longitude, result, radius, keyword) {
             for (const place of data.results) {
                 const rating = place.rating || 0;
                 // place_id가 이미 result 배열에 있는지 확인
-                if (rating >= 1 && !result.find(result => result.place_id === place.place_id)) {
+                if (rating >= 1 && !result.find(result => (result.place_id === place.place_id) && (result.name === place.name))) {
                     let imageUrl = '';
                     // Fetching image for the place
                     if (place.photos && place.photos.length > 0) {
