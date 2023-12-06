@@ -5,12 +5,12 @@ const Routes = require('../DB/routes-definition.js');
 const route_ver2 = require('../route/route_ver2.js');
 const setBudget = require('../budget/budget.js')
 
-async function recommend(req, res) {
+async function first_recommend(req, res) {
     // 1. 사용자 취향 저장
     const userData = req.body; // 클라이언트로부터 받은 데이터를 userData 변수에 저장
     let userId; // 유저 id
     let isUnique = false; // 유저 id 생성을 위한 변수
-
+    console.log(req.body)
     while (!isUnique) { // 유저 id 생성과정
         // 1과 100000 사이의 랜덤한 정수로 user_id 생성
         userId = Math.floor(Math.random() * (100000)) + 1;
@@ -21,8 +21,9 @@ async function recommend(req, res) {
             isUnique = true;
         }
     }
-    userData.user_id = userId; // 위에서 생성한 user_id를 할당
+    userData.user_id = userId; // user_id를 할당
     const newPersonalities = await new Personalities(userData); // 받은 데이터를 사용해 newPersonalities 객체를 생성
+    let user_destination = newPersonalities.travel_destination; // 유저가 선택한 목적지
     await newPersonalities.save() // newPersonalities 객체를 DB에 저장
         .then(() => {
             console.log(`user_id: ${userId} 의 사용자 취향이 성공적으로 저장되었습니다.`)
@@ -33,7 +34,7 @@ async function recommend(req, res) {
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 사용자 취향이 정상적으로 저장되었습니다.` });
 
     // 2. 사용자 취향 바탕으로 여행지 조사
-    let user_info_list = await selectDestination(userId); // 여행지 정보 배열
+    let user_info_list = await selectDestination(userId, user_destination); // 여행지 정보 배열
     // user_info_list 배열의 각 요소를 순회하며 DB에 저장
     for (const info of user_info_list) {
         // 새로운 정보 인스턴스 생성
@@ -84,6 +85,7 @@ async function recommend(req, res) {
     for (let i = 0; i < user_route_list.length; i++) {
         const user_info = {
             user_id: userId, // 유저 id
+            title: user_destination, // 초기 타이틀은 유저 목적지로 저장
             route_name: user_route_list[i].name, // 장소 이름
             route_day: user_route_list[i].day,
             route_location: user_route_list[i].location,
@@ -110,6 +112,7 @@ async function recommend(req, res) {
     for (const info of routes) {
         const user_info = {
             name: info.route_name, // 이름
+            title: info.title, // title
             day: info.route_day, // 여행일
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)
@@ -128,4 +131,4 @@ async function recommend(req, res) {
     }); // 조회된 데이터를 JSON 형태로 응답
 }
 
-module.exports = recommend;
+module.exports = first_recommend;

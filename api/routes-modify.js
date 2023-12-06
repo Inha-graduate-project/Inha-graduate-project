@@ -6,21 +6,25 @@ async function modifyRoute(req, res) { // 비동기적 동작
     const userData = req.body; // 사용자가 수정한 경로 데이터 가져오기
     try {
         // 1. 기존 경로 데이터 삭제
-        await Routes.deleteMany({ user_id: userId }).then();
+        const userTitle = userData[0].title; // title값
+        await Routes.deleteMany({ user_id: userId, title: userTitle }).then(); // 해당 유저 id의 타이틀에 해당하는 값 삭제
         // 2. 수정된 경로 데이터 저장
         // userData의 각 요소를 순회하며 DB에 저장
         for (let i = 0; i < userData.length; i++) {
             // 새로운 정보 인스턴스 생성
             const user_info = {
                 user_id: userId, // 유저 id
+                title: userTitle,
                 route_name: userData[i].name, // 장소 이름
                 route_day: userData[i].day,
                 route_location: userData[i].location,
                 route_address: userData[i].address,
                 route_type: userData[i].type,
-                route_price: userData[i].price
+                route_price: userData[i].price,
+                route_imageUrl: userData[i].route_imageUrl,
+                food_name: userData[i].food_name,
+                food_imageUrl: userData[i].food_imageUrl
             }
-
             const newRoute = new Routes(user_info);
             // 정보를 DB에 저장
             await newRoute.save();
