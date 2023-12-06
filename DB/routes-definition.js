@@ -5,8 +5,9 @@ const Schema = mongoose.Schema;
 
 const routesSchema = new Schema({
     // 스키마 정의
-    user_id: { type: Number, required: true }, // 유저 id 
-    //route_seq: { type: Number, required: true }, // 시퀀스(여행지 순서 값)
+    user_id: { type: Number, required: true }, // 유저 id
+    course_id: { type: Number, requied: false }, // 코스 id
+    title: { type: String, required: false }, // title
     route_name: { type: String, required: true }, // 장소 이름
     route_day: { type: Number, required: true }, // 몇일 차 여행일인지 저장하는 값(1일차인지, 2일차인지, 3일차인지)
     route_location: { type: Object, required: true }, // 위도 및 경도 정보
