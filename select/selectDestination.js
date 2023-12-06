@@ -8,9 +8,9 @@ const setUserFoodRank = require('../setRank/setUserFoodRank.js'); // 음식 추�
 const setUserAccommodationRank = require('../setRank/setUserAccommodationRank.js'); // 숙박시설 추천 갯수를 가져오는 모듈
 const googleMapApiKey = process.env.googleMapApiKey;
 
-async function selectDestination(userId, user_destination) {
+async function selectDestination(userId, course_id) {
     try {
-        const user = await Personalities.findOne({ user_id: userId, travel_destination: user_destination }); // 해당 userId의 personalities 데이터를 가져온다.
+        const user = await Personalities.findOne({ user_id: userId, course_id: course_id }); // 해당 userId의 personalities 데이터를 가져온다.
         if (!user) { // 유저가 존재하지 않는 경우
             return null; // null 값 리턴
         }

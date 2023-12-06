@@ -35,7 +35,7 @@ async function re_recommend(req, res) {
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 사용자 취향이 정상적으로 저장되었습니다.` });
 
     // 2. 사용자 취향 바탕으로 여행지 조사
-    let user_info_list = await selectDestination(userId, user_destination); // 여행지 정보 배열
+    let user_info_list = await selectDestination(userId, course_id); // 여행지 정보 배열
     // user_info_list 배열의 각 요소를 순회하며 DB에 저장
     for (const info of user_info_list) {
         // 새로운 정보 인스턴스 생성
@@ -59,9 +59,9 @@ async function re_recommend(req, res) {
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 여행지가 정상적으로 저장되었습니다.` });
 
     // 3-1. 경로 계산 및 경비 계산
-    user_info_list = await Informations.find({ user_id: userId });
+    user_info_list = await Informations.find({ user_id: userId, course_id: course_id });
     let [user_route_list, budgets] = await Promise.all([ // 경로 및 경비 동시 계산
-        route_ver2(userId),
+        route_ver2(userId, course_id),
         setBudget(user_info_list)
     ]);
     // 경로 데이터에 경비 값 추가
@@ -107,7 +107,7 @@ async function re_recommend(req, res) {
     //res.status(200).json({ message: `user_id: ${userId} 의 모든 경로가 정상적으로 저장되었습니다.` });
 
     // 4. 경로 반환
-    const routes = await Routes.find({ user_id: userId }); // user_id를 사용하여 Routes 컬렉션에서 데이터 조회
+    const routes = await Routes.find({ user_id: userId, course_id: course_id }); // user_id를 사용하여 Routes 컬렉션에서 데이터 조회
     if (routes.length === 0) { // 만약 결과가 없다면, 404 상태 코드와 함께 메시지를 응답
         return res.status(404).json({ message: "User not found" });
     }
