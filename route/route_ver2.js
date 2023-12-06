@@ -5,9 +5,9 @@ const routeFunc = require('./getRoute.js');
 const haversine = require('./haversine.js');
 require('dotenv').config({ path: '../.env' });
 
-async function route_ver2(userId) {
-    const user = await Personalities.findOne({ user_id: userId });
-    const user_info = await Informations.find({ user_id: userId });
+async function route_ver2(userId, course_id) {
+    const user = await Personalities.findOne({ user_id: userId, course_id: course_id });
+    const user_info = await Informations.find({ user_id: userId, course_id: course_id });
     const travel_day = user.travel_day;
     let result = [];
     // 여행이 당일치기인 경우
