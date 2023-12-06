@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 const personalitiesSchema = new Schema({
     // 스키마 정의
-    user_id: { type: Number, required: true }, // 유저 id 
+    user_id: { type: Number, required: true }, // 유저 id
+    course_id: { type: Number, requied: false }, // 코스 id
     travel_destination: { type: String, required: true }, // 여행지역
     start_day: { type: String, required: true }, // 여행시작일
     finish_day: { type: String, required: true }, // 여행종료일

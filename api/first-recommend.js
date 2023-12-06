@@ -10,7 +10,6 @@ async function first_recommend(req, res) {
     const userData = req.body; // 클라이언트로부터 받은 데이터를 userData 변수에 저장
     let userId; // 유저 id
     let isUnique = false; // 유저 id 생성을 위한 변수
-    console.log(req.body)
     while (!isUnique) { // 유저 id 생성과정
         // 1과 100000 사이의 랜덤한 정수로 user_id 생성
         userId = Math.floor(Math.random() * (100000)) + 1;
@@ -22,6 +21,19 @@ async function first_recommend(req, res) {
         }
     }
     userData.user_id = userId; // user_id를 할당
+    let course_id; // 코스 id
+    isUnique = false;
+    while (!isUnique) { // 유저 id 생성과정
+        // 1과 1000000 사이의 랜덤한 정수로 user_id 생성
+        course_id = Math.floor(Math.random() * (1000000)) + 1;
+
+        // user_id의 고유성을 DB에서 검사
+        const existingCourseId = await Personalities.findOne({ course_id: course_id });
+        if (!existingCourseId) {
+            isUnique = true;
+        }
+    }
+    userData.course_id = course_id; // course_id를 할당
     const newPersonalities = await new Personalities(userData); // 받은 데이터를 사용해 newPersonalities 객체를 생성
     let user_destination = newPersonalities.travel_destination; // 유저가 선택한 목적지
     await newPersonalities.save() // newPersonalities 객체를 DB에 저장
@@ -40,6 +52,7 @@ async function first_recommend(req, res) {
         // 새로운 정보 인스턴스 생성
         const user_info = {
             user_id: userId, // 유저 id
+            course_id: course_id, // 코스 id
             information_name: info.name, // 장소 이름
             information_seq: info.seq,
             information_day: info.day,
@@ -85,6 +98,7 @@ async function first_recommend(req, res) {
     for (let i = 0; i < user_route_list.length; i++) {
         const user_info = {
             user_id: userId, // 유저 id
+            course_id: course_id, // 코스 id
             title: user_destination, // 초기 타이틀은 유저 목적지로 저장
             route_name: user_route_list[i].name, // 장소 이름
             route_day: user_route_list[i].day,
@@ -113,6 +127,7 @@ async function first_recommend(req, res) {
         const user_info = {
             name: info.route_name, // 이름
             title: info.title, // title
+            course_id: info.course_id, // 코스 id
             day: info.route_day, // 여행일
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)
@@ -127,6 +142,7 @@ async function first_recommend(req, res) {
     console.log(`user_id: ${userId} 의 경로를 반환합니다.`)
     res.json({
         user_id: userId,
+        course_id: course_id,
         data: data
     }); // 조회된 데이터를 JSON 형태로 응답
 }
