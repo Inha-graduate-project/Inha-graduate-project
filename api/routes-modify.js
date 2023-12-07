@@ -8,6 +8,8 @@ async function modifyRoute(req, res) { // 비동기적 동작
         // 1. 기존 경로 데이터 삭제
         const userTitle = userData[0].title; // title값
         const course_id = userData[0].course_id; // course_id 값
+        const start_day = userData[0].start_day;
+        const finish_day = userData[0].finish_day;
         await Routes.deleteMany({ user_id: userId, course_id: course_id }).then(); // 해당 유저 id의 타이틀에 해당하는 값 삭제
         // 2. 수정된 경로 데이터 저장
         // userData의 각 요소를 순회하며 DB에 저장
@@ -16,6 +18,8 @@ async function modifyRoute(req, res) { // 비동기적 동작
             const user_info = {
                 user_id: userId, // 유저 id
                 title: userTitle,
+                start_day: start_day,
+                finish_day: finish_day,
                 course_id: course_id,
                 route_name: userData[i].name, // 장소 이름
                 route_day: userData[i].day,

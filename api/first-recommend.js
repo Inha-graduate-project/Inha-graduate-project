@@ -21,6 +21,8 @@ async function first_recommend(req, res) {
         }
     }
     userData.user_id = userId; // user_id를 할당
+    let start_day = userData.start_day; // 시작일
+    let finish_day = userData.finish_day; // 종료일
     let course_id; // 코스 id
     isUnique = false;
     while (!isUnique) { // 유저 id 생성과정
@@ -53,6 +55,8 @@ async function first_recommend(req, res) {
         const user_info = {
             user_id: userId, // 유저 id
             course_id: course_id, // 코스 id
+            start_day: start_day,
+            finish_day: finish_day,
             information_name: info.name, // 장소 이름
             information_seq: info.seq,
             information_day: info.day,
@@ -100,6 +104,9 @@ async function first_recommend(req, res) {
             user_id: userId, // 유저 id
             course_id: course_id, // 코스 id
             title: user_destination, // 초기 타이틀은 유저 목적지로 저장
+            start_day: start_day,
+            finish_day: finish_day,
+            title: user_destination, // 초기 타이틀은 유저 목적지로 저장
             route_name: user_route_list[i].name, // 장소 이름
             route_day: user_route_list[i].day,
             route_location: user_route_list[i].location,
@@ -129,6 +136,8 @@ async function first_recommend(req, res) {
             title: info.title, // title
             course_id: info.course_id, // 코스 id
             day: info.route_day, // 여행일
+            start_day: start_day,
+            finish_day: finish_day,
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)
             type: info.route_type, // 여행지/음식점/숙소를 나타내는 타입,

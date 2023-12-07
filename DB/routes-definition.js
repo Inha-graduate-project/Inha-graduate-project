@@ -8,6 +8,8 @@ const routesSchema = new Schema({
     user_id: { type: Number, required: true }, // 유저 id
     course_id: { type: Number, requied: false }, // 코스 id
     title: { type: String, required: false }, // title
+    start_day: { type: String, required: false },
+    finish_day: { type: String, required: false },
     route_name: { type: String, required: true }, // 장소 이름
     route_day: { type: Number, required: true }, // 몇일 차 여행일인지 저장하는 값(1일차인지, 2일차인지, 3일차인지)
     route_location: { type: Object, required: true }, // 위도 및 경도 정보
