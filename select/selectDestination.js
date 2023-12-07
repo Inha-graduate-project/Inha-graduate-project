@@ -44,9 +44,9 @@ async function selectDestination(userId, course_id) {
             address: startpoint_address, type: "여행지", image_url: photo_url
         });
         //console.log(results[0])
-        const user_rankDestinationData = await setUserDestinationRank(userId); // 여행지 추천 갯수를 가져오고, 저장하는 data
-        const user_rankFoodData = await setUserFoodRank(userId); // 음식 추천 갯수를 가져오고, 저장하는 data
-        const user_rankAccommodationData = await setUserAccommodationRank(userId); // 숙소 추천 갯수를 가져오고, 저장하는 data
+        const user_rankDestinationData = await setUserDestinationRank(userId, course_id); // 여행지 추천 갯수를 가져오고, 저장하는 data
+        const user_rankFoodData = await setUserFoodRank(userId, course_id); // 음식 추천 갯수를 가져오고, 저장하는 data
+        const user_rankAccommodationData = await setUserAccommodationRank(userId, course_id); // 숙소 추천 갯수를 가져오고, 저장하는 data
         // 여행지, 음식점, 숙소 순서 정렬
         const sortedDestinationKeywords = Object.entries(user_rankDestinationData)
             .filter(([, value]) => value.count > 0)

@@ -15,7 +15,9 @@ async function readRoute(req, res) { // 비동기적 동작
             if (!course_id_data.find(course_id_data => course_id_data.course_id === routes[i].course_id)) {
                 course_id_data.push({
                     course_id: routes[i].course_id,
-                    title: routes[i].title
+                    title: routes[i].title,
+                    start_day: routes[i].start_day,
+                    finish_day: routes[i].finish_day
                 })
             }
         }
@@ -43,7 +45,9 @@ async function readRoute(req, res) { // 비동기적 동작
             data.push({
                 course_id: course_id_data[i].course_id,
                 title: course_id_data[i].title,
-                data: courseData
+                start_day: course_id_data[i].start_day,
+                finish_day: course_id_data[i].finish_day,
+                data: courseData,
             });
         }
         res.json(data); // 조회된 데이터를 JSON 형태로 응답
