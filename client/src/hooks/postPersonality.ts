@@ -4,15 +4,24 @@ import { useSetRecoilState } from 'recoil';
 import { courseState, priceState } from '../state';
 import { Course, Personality } from '../types';
 
-const postPersonality = async (personality: Personality): Promise<Course[]> => {
+const postPersonality = async (personality: Personality): Promise<{data: Course[], user_id: number}> => {
+    const userId = Number(JSON.parse(window.localStorage.getItem("user_id") as string));
+    let url = '';
+    if(userId) {
+        url = `/api/reRecommend/${Number(userId)}`;
+    }
+    else {
+        url = '/api/firstRecommend';
+    }
 	const response = await axios.post(
-		'/api/recommend', personality
+		url, personality
 	);
-	return response.data.data;
+	return response.data;
 };
 export function usePostPersonality(personality: Personality) {
     const setCourse = useSetRecoilState(courseState);
     const setPrice = useSetRecoilState(priceState);
+    const storage = window.localStorage;
     return useMutation(() => postPersonality(personality), {
         onSuccess: (response) => {
         const newCourses: {
@@ -41,7 +50,8 @@ export function usePostPersonality(personality: Personality) {
         } = {
             items: []
         };
-        response.map((item, idx) => {
+        storage.setItem("user_id", JSON.stringify(response.user_id));
+        response.data.map((item, idx) => {
             if(idx !== 0) {
                 newCourses.items.push({
                     children: item.name,

@@ -1,13 +1,33 @@
-import { Block, Content, ImageContainer, StyledTitle } from "./styles";
-import { EnvironmentOutlined, FileImageOutlined } from "@ant-design/icons";
+import {
+  Block,
+  ButtonContainer,
+  ButtonSection,
+  Content,
+  ImageContainer,
+  StyledRate,
+  StyledTitle,
+} from "./styles";
+import {
+  DownSquareOutlined,
+  EnvironmentOutlined,
+  FileImageOutlined,
+  MinusSquareOutlined,
+  UpSquareOutlined,
+} from "@ant-design/icons";
 
 interface CourseItems {
+  isRate?: boolean;
+  rate?: number;
+  button?: string;
   title: string;
   address: string;
   type: string;
   img?: string;
 }
 export default function CourseItems({
+  isRate,
+  rate,
+  button,
   title,
   address,
   type,
@@ -26,7 +46,17 @@ export default function CourseItems({
         )}
       </ImageContainer>
       <Content>
-        <span>{type}</span>
+        <ButtonSection button={button as string}>
+          <span>{type}</span>
+          {button === "edit" ? (
+            <ButtonContainer>
+              <MinusSquareOutlined />
+              <UpSquareOutlined />
+              <DownSquareOutlined />
+            </ButtonContainer>
+          ) : null}
+          {isRate ? <StyledRate allowHalf disabled value={rate} /> : null}
+        </ButtonSection>
         <StyledTitle level={4}>{title}</StyledTitle>
         <div>
           <EnvironmentOutlined />

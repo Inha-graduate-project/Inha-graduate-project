@@ -10,8 +10,6 @@ import { Block, ContentBox, NextButton } from "./styles";
 import { useRef, useState } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../state";
 
 export default function LandingPage() {
   const [page, setPage] = useState(0);
