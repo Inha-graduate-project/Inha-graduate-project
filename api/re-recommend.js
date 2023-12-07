@@ -22,7 +22,9 @@ async function re_recommend(req, res) {
             isUnique = true;
         }
     }
-    userData.course_id = course_id; // course_id를 할당 
+    userData.course_id = course_id; // course_id를 할당
+    let start_day = userData.start_day; // 시작일
+    let finish_day = userData.finish_day; // 종료일
     const newPersonalities = await new Personalities(userData); // 받은 데이터를 사용해 newPersonalities 객체를 생성
     let user_destination = newPersonalities.travel_destination; // 유저가 선택한 목적지
     await newPersonalities.save() // newPersonalities 객체를 DB에 저장
@@ -42,6 +44,8 @@ async function re_recommend(req, res) {
         const user_info = {
             user_id: userId, // 유저 id
             course_id: course_id, // 코스 id
+            start_day: start_day,
+            finish_day: finish_day,
             information_name: info.name, // 장소 이름
             information_seq: info.seq,
             information_day: info.day,
@@ -89,6 +93,8 @@ async function re_recommend(req, res) {
             user_id: userId, // 유저 id
             course_id: course_id, // 코스 id
             title: user_destination, // 초기 타이틀은 유저 목적지로 저장
+            start_day: start_day,
+            finish_day: finish_day,
             route_name: user_route_list[i].name, // 장소 이름
             route_day: user_route_list[i].day,
             route_location: user_route_list[i].location,
@@ -117,6 +123,8 @@ async function re_recommend(req, res) {
             name: info.route_name, // 이름
             course_id: info.course_id, // 코스 id
             title: info.title, // title
+            start_day: start_day,
+            finish_day: finish_day,
             day: info.route_day, // 여행일
             address: info.route_address, // 주소
             location: info.route_location, // 위치(위도와 경도)

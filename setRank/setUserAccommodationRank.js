@@ -1,9 +1,9 @@
 // 사용자의 숙박시설 우선순위를 바탕으로 여행지 추천 갯수를 계산하는 함수
 const Personalities = require('../DB/personalities-definition');
 
-async function setUserAccommodationRank(userId) {
+async function setUserAccommodationRank(userId, course_id) {
     try {
-        const user = await Personalities.findOne({ user_id: userId }); // 해당 userId의 personalities 데이터를 가져온다.
+        const user = await Personalities.findOne({ user_id: userId, course_id: course_id }); // 해당 userId의 personalities 데이터를 가져온다.
         if (!user) { // 유저가 존재하지 않는 경우
             return null; // null 값 리턴
         }
