@@ -14,7 +14,8 @@ async function readRoute(req, res) { // 비동기적 동작
         for (let i = 0; i < routes.length; i++) {
             if (!course_id_data.find(course_id_data => course_id_data.course_id === routes[i].course_id)) {
                 course_id_data.push({
-                    course_id: routes[i].course_id
+                    course_id: routes[i].course_id,
+                    title: routes[i].title
                 })
             }
         }
@@ -39,7 +40,11 @@ async function readRoute(req, res) { // 비동기적 동작
                     courseData.push(user_info);
                 }
             }
-            data.push(courseData);
+            data.push({
+                course_id: course_id_data[i].course_id,
+                title: course_id_data[i].title,
+                data: courseData
+            });
         }
         res.json(data); // 조회된 데이터를 JSON 형태로 응답
     } catch (error) { // 에러가 발생한 경우, 500 상태 코드와 함께 에러 메시지를 응답
