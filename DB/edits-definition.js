@@ -13,7 +13,8 @@ const editsSchema = new Schema({
     edit_type: { type: String, required: true }, // 타입(여행지, 음식점, 숙소)
     edit_category: { type: String, required: true }, // 여행 세부 카테고리(산, 국립공원 등)
     edit_placeID: { type: String, required: false }, // place_id(장소 중복을 방지하기 위한 값)
-    edit_cost: { type: Number, required: false } // 경비
+    edit_cost: { type: Number, required: false }, // 경비
+    edit_imageurl: { type: String, required: false } // 이미지 url
 }, { collection: 'edits' });
 
 const Edits = mongoose.model('edits', editsSchema);
