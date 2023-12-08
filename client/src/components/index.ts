@@ -10,3 +10,4 @@ export * from './CourseItems';
 export * from './MapComponent';
 export * from './DirectionComponent';
 export * from './EditSideBar';
+export * from './CardEditComponent';
