@@ -1,8 +1,25 @@
-import { Divider, Popover, Tabs, Timeline, Typography } from "antd";
+import {
+  Button,
+  Divider,
+  Modal,
+  Popover,
+  Tabs,
+  Timeline,
+  Typography,
+} from "antd";
 import { useState } from "react";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useRecoilValue } from "recoil";
-import { courseState, priceState, travelState, userState } from "../../state";
+import {
+  ExclamationCircleOutlined,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  courseState,
+  dayState,
+  priceState,
+  travelState,
+  userState,
+} from "../../state";
 import { CourseItems } from "../CourseItems";
 import {
   Container,
@@ -10,7 +27,9 @@ import {
   PriceContainer,
   StyledButton,
   StyledDrawer,
+  TitleContainer,
 } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 export default function CourseSideBar() {
   const { Title } = Typography;
@@ -18,31 +37,57 @@ export default function CourseSideBar() {
   const travel = useRecoilValue(travelState);
   const price = useRecoilValue(priceState);
   const user = useRecoilValue(userState);
-  const day = user.travel_day;
-  console.log(price);
+  const setDay = useSetRecoilState(dayState);
+  const day = useRecoilValue(dayState);
+  const travelDay = user.travel_day;
   const totalPrice = price.items.reduce((acc, cur) => acc + cur.price, 0);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const showDrawer = () => {
     setOpen(true);
   };
   const onClose = () => {
     setOpen(false);
   };
+  const { confirm } = Modal;
+  const showConfirm = () => {
+    confirm({
+      title: "저장이 완료되었습니다.",
+      icon: <ExclamationCircleFilled />,
+      content: "마이페이지로 이동하시겠습니까?",
+      onOk() {
+        navigate("/mypage");
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   const popover =
     "가장 저렴한 메뉴/객실의 가격을 바탕으로 계산되었으며, 정확한 수치가 아닐 수 있으니 참고용으로 이용 바랍니다.";
   return (
     <>
       <Container width={400}>
-        <Title level={4}>{travel}의 추천 여행 코스입니다.</Title>
+        <TitleContainer>
+          <Title level={4}>{travel}의 추천 여행 코스입니다. </Title>
+          <Button
+            type="primary"
+            onClick={showConfirm}
+            style={{ marginTop: "1rem" }}
+          >
+            저장하기
+          </Button>
+        </TitleContainer>
         <Tabs
           defaultActiveKey="1"
           centered
-          items={new Array(day).fill(null).map((_, i) => {
+          onChange={(activeKey) => setDay(Number(activeKey) - 1)}
+          items={new Array(travelDay).fill(null).map((_, i) => {
             const id = String(i + 1);
             return {
               label: `Day ${id}`,
               key: id,
-              children: <Timeline items={course} mode="alternate" />,
+              children: <Timeline items={course[i]} mode="alternate" />,
             };
           })}
         />
@@ -65,7 +110,7 @@ export default function CourseSideBar() {
           </StyledButton>
         </PriceContainer>
         <>
-          {course.map((item) => {
+          {course[day].map((item) => {
             return (
               <CourseItems
                 title={item.children}

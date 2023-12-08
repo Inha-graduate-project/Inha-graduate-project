@@ -7,11 +7,12 @@ import {
 } from "react-kakao-maps-sdk";
 import { useRecoilValue } from "recoil";
 import { usePostRoutesToKaKaoMap } from "../../hooks";
-import { courseState, pathState } from "../../state";
+import { courseState, dayState, pathState } from "../../state";
 import { StyledLabel, Wrapper } from "./styles";
 
 export default function MapComponent() {
-  const items = useRecoilValue(courseState).items;
+  const day = useRecoilValue(dayState);
+  const items = useRecoilValue(courseState).items[day];
   const waypoints = items.map((item) => {
     return {
       x: item.location.lng,
@@ -28,7 +29,7 @@ export default function MapComponent() {
   );
   useEffect(() => {
     mutate();
-  }, []);
+  }, [day]);
   const paths = useRef<{ lat: number; lng: number }[]>([]);
   paths.current = useRecoilValue(pathState).path;
   return (

@@ -1,4 +1,5 @@
 export interface Course {
+    user_id: string;
     address: string;
     day: number,
     location: {

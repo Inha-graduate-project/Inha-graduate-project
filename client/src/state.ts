@@ -18,9 +18,18 @@ export interface CourseTypes {
         type: string;
         day: number;
         img: string;
-    }[];
+    }[][];
 }
-
+export interface PriceTypes {
+    items: {
+        title: string,
+        foodName: string,
+        price: number,
+        img: string,
+    }[],
+    taxi: number,
+    distance: number,
+}
 export const userState = atom<Personality>({
     key: 'user',
     default: {
@@ -68,16 +77,7 @@ export const travelState = atom<string>({
     effects_UNSTABLE: [persistAtom],
 })
 
-export const priceState = atom<{
-    items: {
-        title: string,
-        foodName: string,
-        price: number,
-        img: string,
-    }[],
-    taxi: number,
-    distance: number,
-}>({
+export const priceState = atom<PriceTypes>({
     key: 'price',
     default: {
         items: [],
@@ -85,4 +85,9 @@ export const priceState = atom<{
         distance: 0,
     },
     effects_UNSTABLE: [persistAtom],
+})
+
+export const dayState = atom<number>({
+    key:' day',
+    default: 0,
 })

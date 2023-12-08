@@ -17,6 +17,10 @@ export const Container = styled(Sider)`
 
 export const StyledDrawer = styled(Drawer)`
     margin-left: 400px;
+    .ant-drawer-header {
+        padding-bottom: 0;
+        border: none !important;
+    }
 `;
 
 export const StyledButton = styled(Button)`
@@ -35,4 +39,13 @@ export const DrawerContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+`;
+
+export const TitleContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    margin-bottom: 10px;
 `;
