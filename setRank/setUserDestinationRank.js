@@ -73,11 +73,11 @@ async function setUserDestinationRank(userId, course_id) {
 
         const keywords = { // 여행 키워드
             rank_mountain: ['산 mountain', '국립공원', '수목원', '식물원', '계곡'],
-            rank_sea: ['해수욕장'],
+            rank_sea: ['바다', '해수욕장', '해변'],
             rank_historicalTheme: ['문화유적', '박물관'],
-            rank_experienceTheme: ['체험학습장', '체험마을'],
+            rank_experienceTheme: ['체험학습장', '체험마을', '체험장'],
             rank_buildingTheme: ['전망대', '석탑'],
-            rank_cafe: ['카페']
+            rank_cafe: ['카페', 'cafe']
         };
 
         let result = {}; // 여행지 개수 및 rank를 저장하는 result

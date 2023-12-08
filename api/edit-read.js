@@ -15,7 +15,7 @@ async function readEdit(req, res) { // 비동기적 동작
                 name: info.edit_name, // 이름
                 rating: info.edit_rating, // 별점
                 address: info.edit_address, // 주소
-                location: info.route_location, // 위치(위도와 경도)
+                location: info.edit_location, // 위치(위도와 경도)
                 type: info.edit_type, // 여행지/음식점/숙소를 나타내는 타입
                 category: info.edit_category, // 카테고리(여행지-산, 국립공원 등)
                 image_url: info.edit_imageurl // 이미지 url
