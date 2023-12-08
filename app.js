@@ -29,11 +29,11 @@ app.post('/api/saveRoute/:user_id', saveRoute); // 경로를 저장하는 api
 app.post('/api/firstRecommend', first_recommend); // 최초 종합 api(user_id 생성)
 app.post('/api/reRecommend/:user_id', re_recommend); // 최초가 아닌 종합 api(기존 user_id 활용)
 app.post('/api/modifyRoute/:user_id', modifyRoute); // 경로 수정 api
-app.post('/api/modifyTitle/:user_id', modifyTitle); // 타이틀 수정 api
 app.get('/api/readPersonality/:user_id', readPersonality); // 사용자 취향(선호도)을 가져오는 api
 app.get('/api/readInformation/:user_id', readInformation); // 저장된 여행지 정보를 가져오는 api
 app.get('/api/readRoute/:user_id', readRoute); // 저장된 여행지 정보를 가져오는 api
 app.get('/api/readEdit/:edit_city', readEdit); // 편집을 위한 여행지 정보를 가져오는 api
+app.put('/api/modifyTitle/:course_id', modifyTitle); // 타이틀 수정 api
 
 const PORT = 8001;
 app.listen(PORT, () => {
