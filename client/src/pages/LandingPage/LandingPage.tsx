@@ -7,17 +7,18 @@ import {
   FoodCards,
 } from "../../components";
 import { Block, ContentBox, NextButton } from "./styles";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
   const [page, setPage] = useState(0);
   const [steps, setSteps] = useState(0);
+  const dayRef = useRef<number>(0);
   const navigate = useNavigate();
   const items = [
     () => page === 0 && <DestinationPicker />,
-    () => page === 1 && <SchedulePicker />,
+    () => page === 1 && <SchedulePicker dayRef={dayRef} />,
     () => page === 2 && <DestinationCards />,
     () => page === 3 && <AccommodationCards />,
     () => page === 4 && <FoodCards />,
@@ -27,6 +28,9 @@ export default function LandingPage() {
           setPage((page) => page + 1);
           if (steps === 0 || steps === 1) {
             setSteps((steps) => steps + 1);
+          }
+          if (page === 2 && dayRef.current <= 1) {
+            setPage((page) => page + 1);
           }
           if (page >= 4) navigate("/course");
         }}
