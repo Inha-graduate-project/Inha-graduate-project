@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { Travel } from '../types';
+import { Travel } from '../types/Travel';
 
 const getSavedCourseById = async (location: string): Promise<Travel[]> => {
 	const response = await axios.get(

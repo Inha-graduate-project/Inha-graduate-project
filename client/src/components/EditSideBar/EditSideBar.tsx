@@ -20,6 +20,7 @@ export default function CourseSideBar() {
   const user = useRecoilValue(userState);
   const setDay = useSetRecoilState(dayState);
   const day = useRecoilValue(dayState);
+  const [editCourse, setEditCourse] = useState([...course[day]]);
   const travelDay = user.travel_day;
   const { confirm } = Modal;
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function CourseSideBar() {
     setOpen(false);
   };
   const tabItems = ["여행지", "음식점", "숙소"];
+  const [tab, setTab] = useState("여행지");
   const showConfirm = () => {
     confirm({
       title: "저장이 완료되었습니다.",
@@ -45,6 +47,9 @@ export default function CourseSideBar() {
       },
     });
   };
+  const filteredData = data?.filter((item) => {
+    return item.type === tab;
+  });
   return (
     <>
       <Container width={400}>
@@ -77,13 +82,18 @@ export default function CourseSideBar() {
             };
           })}
         />
-        {course[day].map((item) => {
+        {editCourse.map((item, idx) => {
           return (
             <CourseItems
+              id={idx}
+              editCourse={editCourse}
+              setEditCourse={setEditCourse}
               button="edit"
               title={item.children}
               address={item.address}
               type={item.type}
+              day={day}
+              location={item.location}
               img={item.img}
             />
           );
@@ -99,25 +109,32 @@ export default function CourseSideBar() {
         <Tabs
           defaultActiveKey="1"
           centered
-          items={tabItems.map((item, idx) => {
+          onChange={(activeKey) => {
+            setTab(activeKey);
+          }}
+          items={tabItems.map((item) => {
             return {
               label: item,
-              key: idx,
+              key: item,
             };
           })}
         />
         {isLoading ? (
           <>Loading...</>
         ) : (
-          data?.map((item) => {
+          filteredData?.map((item) => {
             return (
               <CourseItems
+                editCourse={editCourse}
+                setEditCourse={setEditCourse}
                 button="rate"
                 isRate={true}
                 rate={item.rating}
                 title={item.name}
                 address={item.address}
                 type={item.type}
+                day={day}
+                location={item.location}
                 img={item.image_url}
               />
             );
