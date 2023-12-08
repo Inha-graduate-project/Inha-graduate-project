@@ -9,7 +9,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, w: 'maj
     .then(() => console.log('MongoDB가 연결되었습니다.'))
     .catch(error => console.log('MongoDB 연결에 실패했습니다: ', error));
 
-location = ['창원', '거제', '김해', '밀양', '사천', '양산', '진주', '통영', '거창', '경상남도 고성군', '남해', '산청', '의령', '창녕', '하동', '함안', '함양', '합천'];
+location = ['서울']; // 검색 희망 도시를 배열 안에 삽입
 
 async function edit(location) {
     for (let i = 0; i < location.length; i++) {
