@@ -9,7 +9,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, w: 'maj
     .then(() => console.log('MongoDB가 연결되었습니다.'))
     .catch(error => console.log('MongoDB 연결에 실패했습니다: ', error));
 
-location = ['경산', '경주', '구미', '김천', '문경', '상주', '안동', '영주', '영천', '포항', '고령', '봉화', '성주', '영덕', '영양', '예천', '울릉', '울진', '의성', '청도', '청송', '칠곡'];
+location = ['창원', '거제', '김해', '밀양', '사천', '양산', '진주', '통영', '거창', '경상남도 고성군', '남해', '산청', '의령', '창녕', '하동', '함안', '함양', '합천'];
 
 async function edit(location) {
     for (let i = 0; i < location.length; i++) {
