@@ -1,5 +1,6 @@
 // routes 컬렉션 데이터 조회(read)
 const Routes = require('../DB/routes-definition');
+const Personalities = require('../DB/personalities-definition');
 
 async function readCourse(req, res) { // 비동기적 동작
     const course_id = req.params.course_id; // 요청에서 user_id 파라미터를 가져오기
@@ -8,6 +9,8 @@ async function readCourse(req, res) { // 비동기적 동작
         if (routes.length === 0) { // 만약 결과가 없다면, 404 상태 코드와 함께 메시지를 응답
             return res.status(404).json({ message: "Course not found" });
         }
+        const personalities = await Personalities.find({ course_id: course_id });
+        const city = personalities[0].travel_destination;
         const data = [];
         for (let i = 0; i < routes.length; i++) {
             const user_info = {
@@ -21,13 +24,16 @@ async function readCourse(req, res) { // 비동기적 동작
                 location: routes[i].route_location, // 위치(위도와 경도)
                 type: routes[i].route_type, // 여행지/음식점/숙소를 나타내는 타입
                 price: routes[i].route_price,
-                route_imageUrl: routes[i].route_imageUrl,
+                image_url: routes[i].route_imageUrl,
                 food_name: routes[i].food_name,
                 food_imageUrl: routes[i].food_imageUrl,
             }
             data.push(user_info);
         }
-        res.json(data); // 조회된 데이터를 JSON 형태로 응답
+        res.json({
+            city: city,
+            data: data
+        }); // 조회된 데이터를 JSON 형태로 응답
     } catch (error) { // 에러가 발생한 경우, 500 상태 코드와 함께 에러 메시지를 응답
         res.status(500).json({ message: error.message }); // 500: 서버 에러를 총칭하는 에러 코드
     }
