@@ -33,7 +33,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function CourseSideBar() {
   const { Title } = Typography;
-  const course = useRecoilValue(courseState).items;
+  const course = useRecoilValue(courseState);
   const travel = useRecoilValue(travelState);
   const price = useRecoilValue(priceState);
   const user = useRecoilValue(userState);
@@ -63,6 +63,9 @@ export default function CourseSideBar() {
       },
     });
   };
+  const filteredCourse = course.filter((item) => {
+    return item.day === day;
+  });
   const popover =
     "가장 저렴한 메뉴/객실의 가격을 바탕으로 계산되었으며, 정확한 수치가 아닐 수 있으니 참고용으로 이용 바랍니다.";
   return (
@@ -81,13 +84,13 @@ export default function CourseSideBar() {
         <Tabs
           defaultActiveKey="1"
           centered
-          onChange={(activeKey) => setDay(Number(activeKey) - 1)}
+          onChange={(activeKey) => setDay(Number(activeKey))}
           items={new Array(travelDay).fill(null).map((_, i) => {
             const id = String(i + 1);
             return {
               label: `Day ${id}`,
               key: id,
-              children: <Timeline items={course[i]} mode="alternate" />,
+              children: <Timeline items={filteredCourse} mode="alternate" />,
             };
           })}
         />
@@ -110,13 +113,15 @@ export default function CourseSideBar() {
           </StyledButton>
         </PriceContainer>
         <>
-          {course[day].map((item) => {
+          {filteredCourse.map((item) => {
             return (
               <CourseItems
                 title={item.children}
                 address={item.address}
                 type={item.type}
                 img={item.img}
+                day={item.day}
+                location={item.location}
               />
             );
           })}

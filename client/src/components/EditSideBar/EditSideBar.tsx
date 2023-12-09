@@ -2,7 +2,7 @@ import { Button, Modal, Tabs, Typography } from "antd";
 import { useState } from "react";
 import { ExclamationCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { courseState, dayState, travelState, userState } from "../../state";
+import { courseState, dayState, userState } from "../../state";
 import { CourseItems } from "../CourseItems";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,10 +13,20 @@ import {
 import { StyledButton } from "./styles";
 import { useGetSavedCourseById } from "../../hooks";
 
-export default function CourseSideBar() {
+interface CourseSideBarProps {
+  city: string;
+  title: string;
+  startDay: number;
+  finishDay: number;
+}
+export default function CourseSideBar({
+  city,
+  title,
+  startDay,
+  finishDay,
+}: CourseSideBarProps) {
   const { Title } = Typography;
-  const course = useRecoilValue(courseState).items;
-  const travel = useRecoilValue(travelState);
+  const course = useRecoilValue(courseState);
   const user = useRecoilValue(userState);
   const setDay = useSetRecoilState(dayState);
   const day = useRecoilValue(dayState);
@@ -24,7 +34,7 @@ export default function CourseSideBar() {
   const { confirm } = Modal;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useGetSavedCourseById("부산");
+  const { data, isLoading } = useGetSavedCourseById(city);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -32,6 +42,7 @@ export default function CourseSideBar() {
     setOpen(false);
   };
   const tabItems = ["여행지", "음식점", "숙소"];
+  const [tab, setTab] = useState("여행지");
   const showConfirm = () => {
     confirm({
       title: "저장이 완료되었습니다.",
@@ -45,15 +56,27 @@ export default function CourseSideBar() {
       },
     });
   };
+  const [editCourse, setEditCourse] = useState(
+    course.filter((item) => {
+      return item.day === day;
+    })
+  );
+  const filteredData = data?.filter((item) => {
+    return item.type === tab;
+  });
   return (
     <>
       <Container width={400}>
         <TitleContainer>
           <div>
             <Title level={4} style={{ margin: "0px" }}>
-              {travel}
+              {title}
             </Title>
-            <span>2023.12.07 ~ 2023.12.07</span>
+            <span>
+              {String(startDay).replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3")}{" "}
+              ~{" "}
+              {String(finishDay).replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3")}
+            </span>
           </div>
           <Button type="primary" onClick={showConfirm}>
             저장하기
@@ -62,7 +85,14 @@ export default function CourseSideBar() {
         <Tabs
           defaultActiveKey="1"
           centered
-          onChange={(activeKey) => setDay(Number(activeKey) - 1)}
+          onChange={(activeKey) => {
+            setDay(Number(activeKey));
+            setEditCourse(
+              course.filter((item) => {
+                return item.day === Number(activeKey);
+              })
+            );
+          }}
           items={new Array(travelDay).fill(null).map((_, i) => {
             const id = String(i + 1);
             return {
@@ -77,13 +107,18 @@ export default function CourseSideBar() {
             };
           })}
         />
-        {course[day].map((item) => {
+        {editCourse.map((item, idx) => {
           return (
             <CourseItems
+              id={idx}
+              editCourse={editCourse}
+              setEditCourse={setEditCourse}
               button="edit"
               title={item.children}
               address={item.address}
               type={item.type}
+              day={day}
+              location={item.location}
               img={item.img}
             />
           );
@@ -99,25 +134,32 @@ export default function CourseSideBar() {
         <Tabs
           defaultActiveKey="1"
           centered
-          items={tabItems.map((item, idx) => {
+          onChange={(activeKey) => {
+            setTab(activeKey);
+          }}
+          items={tabItems.map((item) => {
             return {
               label: item,
-              key: idx,
+              key: item,
             };
           })}
         />
         {isLoading ? (
           <>Loading...</>
         ) : (
-          data?.map((item) => {
+          filteredData?.map((item) => {
             return (
               <CourseItems
+                editCourse={editCourse}
+                setEditCourse={setEditCourse}
                 button="rate"
                 isRate={true}
                 rate={item.rating}
                 title={item.name}
                 address={item.address}
                 type={item.type}
+                day={day}
+                location={item.location}
                 img={item.image_url}
               />
             );

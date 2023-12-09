@@ -14,55 +14,136 @@ import {
   MinusSquareOutlined,
   UpSquareOutlined,
 } from "@ant-design/icons";
+import { message } from "antd";
+import { CourseTypes } from "../../state";
 
 interface CourseItems {
+  id?: number;
+  editCourse?: CourseTypes[];
+  setEditCourse?: React.Dispatch<React.SetStateAction<CourseTypes[]>>;
   isRate?: boolean;
   rate?: number;
   button?: string;
   title: string;
   address: string;
   type: string;
+  day: number;
+  location: {
+    lat: number;
+    lng: number;
+  };
   img?: string;
 }
 export default function CourseItems({
+  id,
+  editCourse,
+  setEditCourse,
   isRate,
   rate,
   button,
   title,
   address,
+  day,
+  location,
   type,
   img,
 }: CourseItems) {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "성공적으로 추가되었습니다.",
+    });
+  };
+  const handleDelete = (id: number) => {
+    if (editCourse && setEditCourse) {
+      const newCourse = [...editCourse];
+      newCourse.splice(id, 1);
+      setEditCourse(newCourse);
+    }
+  };
+  const handleItemUp = (id: number) => {
+    if (editCourse && setEditCourse) {
+      const newCourse = [...editCourse];
+      if (id > 0) {
+        const temp = newCourse[id];
+        newCourse[id] = newCourse[id - 1];
+        newCourse[id - 1] = temp;
+      }
+      setEditCourse(newCourse);
+    }
+  };
+  const handleItemDown = (id: number) => {
+    if (editCourse && setEditCourse) {
+      const newCourse = [...editCourse];
+      if (id < newCourse.length - 1) {
+        const temp = newCourse[id + 1];
+        newCourse[id + 1] = newCourse[id];
+        newCourse[id] = temp;
+      }
+      setEditCourse(newCourse);
+    }
+  };
+  const handleItempPush = () => {
+    if (editCourse && setEditCourse) {
+      const newCourse = [...editCourse];
+      newCourse.push({
+        children: title,
+        location: {
+          lat: location.lat,
+          lng: location.lng,
+        },
+        address: address,
+        type: type,
+        day: day,
+        img: img as string,
+        price: 0,
+      });
+      setEditCourse(newCourse);
+      success();
+    }
+  };
   return (
-    <Block>
-      <ImageContainer>
-        {img ? (
-          <img
-            src={img}
-            style={{ width: "160px", height: "100px", objectFit: "cover" }}
-          />
-        ) : (
-          <FileImageOutlined width={24} />
-        )}
-      </ImageContainer>
-      <Content>
-        <ButtonSection button={button as string}>
-          <span>{type}</span>
-          {button === "edit" ? (
-            <ButtonContainer>
-              <MinusSquareOutlined />
-              <UpSquareOutlined />
-              <DownSquareOutlined />
-            </ButtonContainer>
-          ) : null}
-          {isRate ? <StyledRate allowHalf disabled value={rate} /> : null}
-        </ButtonSection>
-        <StyledTitle level={4}>{title}</StyledTitle>
-        <div>
-          <EnvironmentOutlined />
-          <span>{address}</span>
-        </div>
-      </Content>
-    </Block>
+    <>
+      {contextHolder}
+      <Block
+        button={button as string}
+        onClick={() => {
+          button !== "edit" && handleItempPush();
+        }}
+      >
+        <ImageContainer>
+          {img ? (
+            <img
+              src={img}
+              style={{ width: "160px", height: "100px", objectFit: "cover" }}
+            />
+          ) : (
+            <FileImageOutlined width={24} />
+          )}
+        </ImageContainer>
+        <Content>
+          <ButtonSection button={button as string}>
+            <span>{type}</span>
+            {button === "edit" ? (
+              <ButtonContainer>
+                <MinusSquareOutlined onClick={() => handleDelete(Number(id))} />
+                <UpSquareOutlined onClick={() => handleItemUp(Number(id))} />
+                <DownSquareOutlined
+                  onClick={() => handleItemDown(Number(id))}
+                />
+              </ButtonContainer>
+            ) : null}
+            {isRate ? <StyledRate allowHalf disabled value={rate} /> : null}
+          </ButtonSection>
+          <StyledTitle level={4}>{title}</StyledTitle>
+          <div>
+            <EnvironmentOutlined />
+            <span>{address}</span>
+          </div>
+        </Content>
+      </Block>
+    </>
   );
 }

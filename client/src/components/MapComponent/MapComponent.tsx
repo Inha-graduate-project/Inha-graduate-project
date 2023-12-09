@@ -12,8 +12,11 @@ import { StyledLabel, Wrapper } from "./styles";
 
 export default function MapComponent() {
   const day = useRecoilValue(dayState);
-  const items = useRecoilValue(courseState).items[day];
-  const waypoints = items.map((item) => {
+  const items = useRecoilValue(courseState);
+  const filteredCourses = items.filter((item) => {
+    return item.day === day;
+  });
+  const waypoints = filteredCourses.map((item) => {
     return {
       x: item.location.lng,
       y: item.location.lat,
@@ -60,7 +63,7 @@ export default function MapComponent() {
               strokeOpacity={1}
               strokeStyle={"solid"}
             />
-            {items.map((loc, idx) => (
+            {filteredCourses.map((loc, idx) => (
               <>
                 <CustomOverlayMap position={loc.location} zIndex={1}>
                   <StyledLabel>{idx + 1}</StyledLabel>

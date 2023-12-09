@@ -8,17 +8,16 @@ export interface PathTypes {
 }
 
 export interface CourseTypes {
-    items: {
-        children: string;
-        location: {
-            lat: number;
-            lng: number;
-        },
-        address: string;
-        type: string;
-        day: number;
-        img: string;
-    }[][];
+    children: string;
+    location: {
+        lat: number;
+        lng: number;
+    },
+    address: string;
+    type: string;
+    day: number;
+    img: string;
+    price: number;
 }
 export interface PriceTypes {
     items: {
@@ -63,11 +62,9 @@ export const pathState = atom<PathTypes>({
     effects_UNSTABLE: [persistAtom],
 });
 
-export const courseState = atom<CourseTypes>({
+export const courseState = atom<CourseTypes[]>({
     key: 'course',
-    default: {
-        items: [],
-    },
+    default: [],
     effects_UNSTABLE: [persistAtom],
 })
 
@@ -89,5 +86,5 @@ export const priceState = atom<PriceTypes>({
 
 export const dayState = atom<number>({
     key:' day',
-    default: 0,
+    default: 1,
 })
