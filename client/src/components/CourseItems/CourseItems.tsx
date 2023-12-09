@@ -15,35 +15,12 @@ import {
   UpSquareOutlined,
 } from "@ant-design/icons";
 import { message } from "antd";
+import { CourseTypes } from "../../state";
 
 interface CourseItems {
   id?: number;
-  editCourse?: {
-    children: string;
-    location: {
-      lat: number;
-      lng: number;
-    };
-    address: string;
-    type: string;
-    day: number;
-    img: string;
-  }[];
-  setEditCourse?: React.Dispatch<
-    React.SetStateAction<
-      {
-        children: string;
-        location: {
-          lat: number;
-          lng: number;
-        };
-        address: string;
-        type: string;
-        day: number;
-        img: string;
-      }[]
-    >
-  >;
+  editCourse?: CourseTypes[];
+  setEditCourse?: React.Dispatch<React.SetStateAction<CourseTypes[]>>;
   isRate?: boolean;
   rate?: number;
   button?: string;
@@ -121,6 +98,7 @@ export default function CourseItems({
         type: type,
         day: day,
         img: img as string,
+        price: 0,
       });
       setEditCourse(newCourse);
       success();
@@ -130,6 +108,7 @@ export default function CourseItems({
     <>
       {contextHolder}
       <Block
+        button={button as string}
         onClick={() => {
           button !== "edit" && handleItempPush();
         }}

@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useMutation, useQueryClient } from "react-query"
 
-const putModifyTitle = async (courseId: string, newTitle: string): Promise<string> => {
+const putModifyTitle = async (courseId: number, newTitle: string): Promise<string> => {
     const response = await axios.put(
         `/api/modifyTitle/${courseId}`, {
             newTitle: newTitle,
@@ -9,7 +9,7 @@ const putModifyTitle = async (courseId: string, newTitle: string): Promise<strin
     return response.data;
 }
 
-export function usePutModifyTitle(courseId: string, newTitle: string) {
+export function usePutModifyTitle(courseId: number, newTitle: string) {
     const queryClient = useQueryClient();
     return useMutation(() => putModifyTitle(courseId, newTitle), {
        onSuccess: () => {

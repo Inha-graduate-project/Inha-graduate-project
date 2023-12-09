@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { courseState, priceState } from '../state';
+import { courseState, CourseTypes, priceState } from '../state';
 import { Course, Personality } from '../types';
 
 const postPersonality = async (personality: Personality): Promise<{data: Course[], user_id: number}> => {
@@ -24,22 +24,7 @@ export function usePostPersonality(personality: Personality) {
     const storage = window.localStorage;
     return useMutation(() => postPersonality(personality), {
         onSuccess: (response) => {
-        const newCourses: {
-            items: {
-                children: string;
-                location: {
-                    lat: number;
-                    lng: number;
-                },
-                address: string;
-                type: string;
-                day: number;
-                price: number;
-                img: string;
-            }[],
-        } = {
-            items: []
-        };
+        const newCourses: CourseTypes[] = [];
         const newPrices: {
             items: {
                 title: string;
@@ -53,7 +38,7 @@ export function usePostPersonality(personality: Personality) {
         storage.setItem("user_id", JSON.stringify(response.user_id));
         response.data.map((item, idx) => {
             if(idx !== 0) {
-                newCourses.items.push({
+                newCourses.push({
                     children: item.name,
                     location: {
                         lat: item.location.latitude,
@@ -75,26 +60,7 @@ export function usePostPersonality(personality: Personality) {
                 }
             }
         })
-        const groupedCourses: {
-            items: {
-                children: string;
-                location: {
-                    lat: number;
-                    lng: number;
-                },
-                address: string;
-                type: string;
-                day: number;
-                img: string;
-            }[][]
-        } = {
-            items: []
-        };
-        for (let i = 0; i < newCourses.items.length; i += 8) {
-            groupedCourses.items.push(newCourses.items.slice(i, i + 8));
-        }
-
-        setCourse(groupedCourses);
+        setCourse(newCourses);
         setPrice({...newPrices, taxi: 0, distance: 0,});
     }});
 }

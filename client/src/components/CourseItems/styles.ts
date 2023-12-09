@@ -4,10 +4,11 @@ const { Title } = Typography;
 interface ButtonSectionProps {
     button: string;
 }
-export const Block = styled.div`
+export const Block = styled.div<ButtonSectionProps>`
     display: flex;
     gap: 10px;
     margin: 30px 0;
+    cursor: ${({ button }) => button !== 'edit' ? 'pointer' : 'default'};
 `;
 export const ImageContainer = styled.div`
     width: 160px;

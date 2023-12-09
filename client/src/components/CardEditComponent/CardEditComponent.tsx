@@ -6,7 +6,7 @@ import { usePutModifyTitle } from "../../hooks";
 import { CardTitle, CardLabel } from "./styles";
 
 interface CardEditComponentProps {
-  id: string;
+  id: number;
   title: string;
   startDay: string;
   finishDay: string;

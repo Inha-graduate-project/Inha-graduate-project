@@ -1,11 +1,13 @@
-import { useEffect } from "react";
-import { useGetSavedCourseById } from "../../hooks";
+import { useGetCourse } from "../../hooks";
 import { EditSideBar, MapComponent } from "../../components";
-
 import { Block, Container } from "../CoursePage/styles";
+import { useLocation } from "react-router-dom";
 
 export default function EditPage() {
-  const { data, isLoading } = useGetSavedCourseById("부산");
+  const location = useLocation();
+  const { courseId, title, startDay, finishDay } = location.state;
+  const { data, isLoading } = useGetCourse(courseId);
+
   return (
     <Block>
       <>
@@ -13,7 +15,12 @@ export default function EditPage() {
           <>Loading...</>
         ) : (
           <>
-            <EditSideBar />
+            <EditSideBar
+              city={data?.city as string}
+              title={title}
+              startDay={startDay}
+              finishDay={finishDay}
+            />
             <Container>
               <MapComponent />
             </Container>
