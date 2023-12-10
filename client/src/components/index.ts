@@ -8,7 +8,6 @@ export * from './FoodCards';
 export * from './CourseSideBar';
 export * from './CourseItems';
 export * from './MapComponent';
-export * from './DirectionComponent';
 export * from './EditSideBar';
 export * from './CardEditComponent';
 export * from './MapMarkerComponent';

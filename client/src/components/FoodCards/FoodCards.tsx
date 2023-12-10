@@ -3,7 +3,10 @@ import { CardComponent } from "../CardComponent";
 import { Block } from "../DestinationCards/styles";
 import { useState, useRef } from "react";
 
-export default function FoodCards() {
+interface FoodCardsProps {
+  isError: React.MutableRefObject<boolean>;
+}
+export default function FoodCards({ isError }: FoodCardsProps) {
   const accommodation = [
     "한식",
     "중식",
@@ -26,6 +29,7 @@ export default function FoodCards() {
           selected={selected}
           count={count}
           type="food"
+          isError={isError}
         />
       ))}
     </Block>

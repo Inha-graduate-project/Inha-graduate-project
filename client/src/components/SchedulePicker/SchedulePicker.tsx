@@ -1,4 +1,5 @@
 import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { DatePicker } from "antd";
 import { TopMarginText } from "./styles";
@@ -13,20 +14,26 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
 interface SchedulePickerProps {
   dayRef: React.MutableRefObject<number>;
+  isError: React.MutableRefObject<boolean>;
 }
-export default function SchedulePicker({ dayRef }: SchedulePickerProps) {
+export default function SchedulePicker({
+  dayRef,
+  isError,
+}: SchedulePickerProps) {
   const [dates, setDates] = useState<RangeValue>(null);
   const [value, setValue] = useState<RangeValue>(null);
   const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
 
   const disabledDate = (current: Dayjs) => {
+    const today = dayjs();
+    const tooOld = current.isBefore(today, "day");
     if (!dates) {
-      return false;
+      return tooOld;
     }
     const tooLate = dates[0] && current.diff(dates[0], "days") >= 3;
     const tooEarly = dates[1] && dates[1].diff(current, "days") >= 3;
-    return !!tooEarly || !!tooLate;
+    return !!tooEarly || !!tooLate || tooOld;
   };
 
   const onOpenChange = (open: boolean) => {
@@ -48,6 +55,7 @@ export default function SchedulePicker({ dayRef }: SchedulePickerProps) {
       travel_day: Number(newDate[1]) - Number(newDate[0]) + 1,
     });
     dayRef.current = Number(newDate[1]) - Number(newDate[0]) + 1;
+    isError.current = false;
   };
 
   return (

@@ -3,7 +3,12 @@ import { CardComponent } from "../CardComponent";
 import { Block } from "../DestinationCards/styles";
 import { useRef, useState } from "react";
 
-export default function AccommodationCards() {
+interface AccommodationCardsProps {
+  isError: React.MutableRefObject<boolean>;
+}
+export default function AccommodationCards({
+  isError,
+}: AccommodationCardsProps) {
   const accommodation = ["호텔", "펜션", "모텔"];
   const [selected, setSelected] = useState([0, 0, 0]);
   const count = useRef(1);
@@ -19,6 +24,7 @@ export default function AccommodationCards() {
           selected={selected}
           count={count}
           type="accommodate"
+          isError={isError}
         />
       ))}
     </Block>

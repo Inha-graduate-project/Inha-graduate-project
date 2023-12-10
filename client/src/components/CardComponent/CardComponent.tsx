@@ -12,6 +12,7 @@ interface CardComponentType {
   count: React.MutableRefObject<number>;
   selected: number[];
   type: string;
+  isError: React.MutableRefObject<boolean>;
 }
 const { Meta } = Card;
 export default function CardComponent({
@@ -22,6 +23,7 @@ export default function CardComponent({
   selected,
   count,
   type,
+  isError,
 }: CardComponentType) {
   const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
@@ -38,6 +40,7 @@ export default function CardComponent({
       count.current--;
       selected[idx] = 0;
     }
+    isError.current = false;
     setSelected([...selected]);
     switch (type) {
       case "destination": {
