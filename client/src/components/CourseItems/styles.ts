@@ -8,7 +8,7 @@ export const Block = styled.div<ButtonSectionProps>`
     display: flex;
     gap: 10px;
     margin: 30px 0;
-    cursor: ${({ button }) => button !== 'edit' ? 'pointer' : 'default'};
+    cursor: ${({ button }) => button === 'drawer' ? 'pointer' : 'default'};
 `;
 export const ImageContainer = styled.div`
     width: 160px;

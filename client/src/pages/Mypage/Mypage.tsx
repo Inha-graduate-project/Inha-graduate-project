@@ -1,10 +1,9 @@
 import {
   ArrowLeftOutlined,
-  CloseCircleOutlined,
   ExclamationCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
-import { Card, Divider, Modal, Typography } from "antd";
+import { Divider, Modal, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CardEditComponent } from "../../components";
@@ -47,6 +46,7 @@ export default function Mypage() {
       title: "해당 코스를 삭제하시겠습니까?",
       icon: <ExclamationCircleFilled />,
       onOk() {
+        setIsConfirm(false);
         handleDelete(courseId);
       },
       onCancel() {

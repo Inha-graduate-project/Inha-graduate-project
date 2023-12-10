@@ -1,14 +1,10 @@
 import { useEffect, useRef } from "react";
-import {
-  CustomOverlayMap,
-  Map,
-  MapMarker,
-  Polyline,
-} from "react-kakao-maps-sdk";
+import { Map, Polyline } from "react-kakao-maps-sdk";
 import { useRecoilValue } from "recoil";
 import { usePostRoutesToKaKaoMap } from "../../hooks";
 import { courseState, dayState, pathState } from "../../state";
-import { StyledLabel, Wrapper } from "./styles";
+import { MapMarkerComponent } from "../MapMarkerComponent";
+import { Wrapper } from "./styles";
 
 export default function MapComponent() {
   const day = useRecoilValue(dayState);
@@ -65,26 +61,12 @@ export default function MapComponent() {
             />
             {filteredCourses.map((loc, idx) => (
               <>
-                <CustomOverlayMap
-                  position={{
-                    lat: loc.location.latitude,
-                    lng: loc.location.longitude,
-                  }}
-                  zIndex={1}
-                >
-                  <StyledLabel>{idx + 1}</StyledLabel>
-                </CustomOverlayMap>
-                <MapMarker
-                  key={`${loc.children}-${loc.location}`}
-                  position={{
-                    lat: loc.location.latitude,
-                    lng: loc.location.longitude,
-                  }}
-                  image={{
-                    src: "./img/marker.png",
-                    size: { width: 24, height: 35 },
-                  }}
-                  title={loc.children}
+                <MapMarkerComponent
+                  address={loc.address}
+                  children={loc.children}
+                  latitude={loc.location.latitude}
+                  longitude={loc.location.longitude}
+                  idx={idx}
                 />
               </>
             ))}
