@@ -30,6 +30,8 @@ export function usePostPersonality(personality: Personality) {
                 title: string;
                 price: number;
                 img: string;
+                day: number;
+                type: string;
                 foodName: string;
             }[];
         } = {
@@ -52,6 +54,8 @@ export function usePostPersonality(personality: Personality) {
                         foodName: item.food_name ?? '알수없음',
                         title: item.name,
                         price: item.price ?? 12000,
+                        day: item.day,
+                        type: item.type,
                         img: item.food_imageUrl ?? item.image_url,
                     });
                 }

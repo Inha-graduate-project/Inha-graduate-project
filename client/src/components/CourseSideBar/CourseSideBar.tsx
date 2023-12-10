@@ -40,7 +40,6 @@ export default function CourseSideBar() {
   const setDay = useSetRecoilState(dayState);
   const day = useRecoilValue(dayState);
   const travelDay = user.travel_day;
-  const totalPrice = price.items.reduce((acc, cur) => acc + cur.price, 0);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const showDrawer = () => {
@@ -66,8 +65,12 @@ export default function CourseSideBar() {
   const filteredCourse = course.filter((item) => {
     return item.day === day;
   });
+  const filteredPrice = price.items.filter((item) => {
+    return item.day === day;
+  });
+  const totalPrice = filteredPrice.reduce((acc, cur) => acc + cur.price, 0);
   const popover =
-    "가장 저렴한 메뉴/객실의 가격을 바탕으로 계산되었으며, 정확한 수치가 아닐 수 있으니 참고용으로 이용 바랍니다.";
+    "가장 상위에 검색된 메뉴/객실의 가격을 바탕으로 계산되었으며, 정확한 수치가 아닐 수 있으니 참고용으로 이용 바랍니다.";
   return (
     <>
       <Container width={400}>
@@ -142,7 +145,7 @@ export default function CourseSideBar() {
           총 이동 거리 : {(price.distance / 1000).toFixed(2)}km
         </div>
         <div>요금 : {price.taxi.toLocaleString()}원</div>
-        {price.items.map((item) => {
+        {filteredPrice.map((item) => {
           return (
             <DrawerContainer>
               <Title level={5}>{item.title}</Title>
@@ -150,7 +153,7 @@ export default function CourseSideBar() {
                 src={item.img}
                 style={{ width: "300px", height: "300px", objectFit: "cover" }}
               ></img>
-              <span>메뉴명 : {item.foodName}</span>
+              {item.type === "음식점" && <span>메뉴명 : {item.foodName}</span>}
               <span>가격 : {item.price.toLocaleString()}원</span>
             </DrawerContainer>
           );
