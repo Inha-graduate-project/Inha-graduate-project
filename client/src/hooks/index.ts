@@ -5,3 +5,4 @@ export * from './getSavedCourseById';
 export * from './putModifyTitle';
 export * from './getCourse';
 export * from './putModifyRoute';
+export * from './deleteRemoveRoute';
