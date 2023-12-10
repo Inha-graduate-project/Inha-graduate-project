@@ -93,7 +93,7 @@ export default function CourseItems({
       setEditCourse(newCourse);
     }
   };
-  const handleItempPush = () => {
+  const handleItemPush = () => {
     if (editCourse && setEditCourse) {
       const newCourse = [...editCourse];
       newCourse.push({
@@ -119,7 +119,7 @@ export default function CourseItems({
       <Block
         button={button as string}
         onClick={() => {
-          button !== "edit" && handleItempPush();
+          button === "drawer" && handleItemPush();
         }}
       >
         <ImageContainer>

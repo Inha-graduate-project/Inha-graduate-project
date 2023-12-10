@@ -193,7 +193,7 @@ export default function CourseSideBar({
               <CourseItems
                 editCourse={editCourse}
                 setEditCourse={setEditCourse}
-                button="rate"
+                button="drawer"
                 isRate={true}
                 rate={item.rating}
                 name={item.name}
