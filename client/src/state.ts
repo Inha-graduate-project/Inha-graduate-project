@@ -27,7 +27,9 @@ export interface PriceTypes {
     items: {
         title: string,
         foodName: string,
+        day: number,
         price: number,
+        type: string,
         img: string,
     }[],
     taxi: number,

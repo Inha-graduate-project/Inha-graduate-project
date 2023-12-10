@@ -4,7 +4,10 @@ import { DownOutlined } from "@ant-design/icons";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../state";
 
-export default function DestinationPicker() {
+interface DestinationPickerProps {
+  isError: React.MutableRefObject<boolean>;
+}
+export default function DestinationPicker({ isError }: DestinationPickerProps) {
   const [buttonIdx, setButtonIdx] = useState(0);
   const items = [
     "서울",
@@ -206,7 +209,10 @@ export default function DestinationPicker() {
             <StyledButton
               onClick={() => {
                 setButtonIdx(idx);
-                setUser({ ...user, travel_destination: item });
+                if (idx < 9) isError.current = false;
+                if (item === "광주") {
+                  setUser({ ...user, travel_destination: "광주광역시" });
+                } else setUser({ ...user, travel_destination: item });
               }}
             >
               {item}
@@ -221,7 +227,19 @@ export default function DestinationPicker() {
             {optionalItems[buttonIdx - 9].map((item) => {
               return (
                 <StyledButton
-                  onClick={() => setUser({ ...user, travel_destination: item })}
+                  onClick={() => {
+                    if (buttonIdx === 9 && item === "광주") {
+                      setUser({ ...user, travel_destination: "경기도 광주시" });
+                    } else if (buttonIdx === 10 && item === "고성") {
+                      setUser({ ...user, travel_destination: "강원도 고성군" });
+                    } else if (buttonIdx === 16 && item === "고성") {
+                      setUser({
+                        ...user,
+                        travel_destination: "경상남도 고성군",
+                      });
+                    } else setUser({ ...user, travel_destination: item });
+                    isError.current = false;
+                  }}
                 >
                   {item}
                 </StyledButton>

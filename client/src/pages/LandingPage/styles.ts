@@ -20,14 +20,18 @@ export const ContentBox = styled.div`
     justify-content: center;
     flex-direction: column;
 `;
-export const NextButton = styled(Button)`
+export const StyledButton = styled(Button)`
     width: 10vw;
     padding: 30px 0;
     font-size: 20px;
     font-weight: bold;
-    margin: 60px auto;
-    margin-bottom: 0px;
+    margin-top: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 24px;
 `;

@@ -3,7 +3,10 @@ import { NoMarginTitle } from "../DestinationPicker/styles";
 import { CardComponent } from "../CardComponent";
 import { useRef, useState } from "react";
 
-export default function DestinationCards() {
+interface DestinationCardsProps {
+  isError: React.MutableRefObject<boolean>;
+}
+export default function DestinationCards({ isError }: DestinationCardsProps) {
   const destination = [
     "산",
     "바다",
@@ -26,6 +29,7 @@ export default function DestinationCards() {
           count={count}
           selected={selected}
           type="destination"
+          isError={isError}
         />
       ))}
     </Block>
