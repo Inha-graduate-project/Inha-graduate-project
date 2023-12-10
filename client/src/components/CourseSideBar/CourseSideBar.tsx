@@ -116,7 +116,7 @@ export default function CourseSideBar() {
           {filteredCourse.map((item) => {
             return (
               <CourseItems
-                title={item.children}
+                name={item.children}
                 address={item.address}
                 type={item.type}
                 img={item.img}

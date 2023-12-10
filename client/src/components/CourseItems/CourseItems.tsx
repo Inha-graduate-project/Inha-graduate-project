@@ -24,15 +24,19 @@ interface CourseItems {
   isRate?: boolean;
   rate?: number;
   button?: string;
-  title: string;
+  name: string;
   address: string;
   type: string;
   day: number;
   location: {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
   };
+  courseId?: number;
   img?: string;
+  title?: string;
+  startDay?: number;
+  finishDay?: number;
 }
 export default function CourseItems({
   id,
@@ -41,12 +45,16 @@ export default function CourseItems({
   isRate,
   rate,
   button,
-  title,
+  name,
   address,
   day,
+  courseId,
   location,
   type,
   img,
+  title,
+  startDay,
+  finishDay,
 }: CourseItems) {
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -89,11 +97,12 @@ export default function CourseItems({
     if (editCourse && setEditCourse) {
       const newCourse = [...editCourse];
       newCourse.push({
-        children: title,
-        location: {
-          lat: location.lat,
-          lng: location.lng,
-        },
+        children: name,
+        location: location,
+        courseId: courseId,
+        title: title,
+        startDay: startDay,
+        finishDay: finishDay,
         address: address,
         type: type,
         day: day,
@@ -137,7 +146,7 @@ export default function CourseItems({
             ) : null}
             {isRate ? <StyledRate allowHalf disabled value={rate} /> : null}
           </ButtonSection>
-          <StyledTitle level={4}>{title}</StyledTitle>
+          <StyledTitle level={4}>{name}</StyledTitle>
           <div>
             <EnvironmentOutlined />
             <span>{address}</span>

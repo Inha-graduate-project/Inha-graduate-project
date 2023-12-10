@@ -46,6 +46,5 @@ export const TitleContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-top: 26px;
-    margin-bottom: 10px;
+    margin: 10px 0;
 `;

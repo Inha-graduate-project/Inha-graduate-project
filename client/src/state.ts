@@ -10,14 +10,18 @@ export interface PathTypes {
 export interface CourseTypes {
     children: string;
     location: {
-        lat: number;
-        lng: number;
+        latitude: number;
+        longitude: number;
     },
     address: string;
     type: string;
     day: number;
     img: string;
     price: number;
+    courseId?: number;
+    title?: string;
+    startDay?: number;
+    finishDay?: number;
 }
 export interface PriceTypes {
     items: {

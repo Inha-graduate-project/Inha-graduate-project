@@ -18,8 +18,8 @@ export default function MapComponent() {
   });
   const waypoints = filteredCourses.map((item) => {
     return {
-      x: item.location.lng,
-      y: item.location.lat,
+      x: item.location.longitude,
+      y: item.location.latitude,
     };
   });
   const origin = waypoints.shift();
@@ -45,8 +45,8 @@ export default function MapComponent() {
             center={
               items[3]
                 ? {
-                    lat: items[3].location.lat,
-                    lng: items[3].location.lng,
+                    lat: items[3].location.latitude,
+                    lng: items[3].location.longitude,
                   }
                 : {
                     lat: 0,
@@ -65,12 +65,21 @@ export default function MapComponent() {
             />
             {filteredCourses.map((loc, idx) => (
               <>
-                <CustomOverlayMap position={loc.location} zIndex={1}>
+                <CustomOverlayMap
+                  position={{
+                    lat: loc.location.latitude,
+                    lng: loc.location.longitude,
+                  }}
+                  zIndex={1}
+                >
                   <StyledLabel>{idx + 1}</StyledLabel>
                 </CustomOverlayMap>
                 <MapMarker
                   key={`${loc.children}-${loc.location}`}
-                  position={loc.location}
+                  position={{
+                    lat: loc.location.latitude,
+                    lng: loc.location.longitude,
+                  }}
                   image={{
                     src: "./img/marker.png",
                     size: { width: 24, height: 35 },
