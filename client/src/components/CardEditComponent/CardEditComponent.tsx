@@ -6,6 +6,8 @@ import { usePutModifyTitle } from "../../hooks";
 import { CardTitle, CardLabel } from "./styles";
 
 interface CardEditComponentProps {
+  isEdit: boolean;
+  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
   title: string;
   startDay: string;
@@ -13,12 +15,13 @@ interface CardEditComponentProps {
 }
 
 export default function CardEditComponent({
+  isEdit,
+  setIsEdit,
   id,
   title,
   startDay,
   finishDay,
 }: CardEditComponentProps) {
-  const [isEdit, setIsEdit] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const { mutate } = usePutModifyTitle(id, newTitle);
   const targetDate = new Date(
@@ -30,8 +33,9 @@ export default function CardEditComponent({
   const timeDifference = Math.floor(
     (targetDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24) + 1
   );
-
+  const [copyIsEdit, setCopyIsEdit] = useState(isEdit);
   const handleSubmit = (value: string) => {
+    setCopyIsEdit(false);
     setIsEdit(false);
     if (value !== "") mutate();
   };
@@ -39,9 +43,10 @@ export default function CardEditComponent({
     <Meta
       title={
         <CardTitle>
-          {isEdit ? (
+          {copyIsEdit ? (
             <Input
               style={{ padding: "0px" }}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(newTitle)}
               onBlur={(e) => handleSubmit(e.target.value)}
               onChange={(e) => setNewTitle(e.target.value)}
             />
@@ -49,7 +54,12 @@ export default function CardEditComponent({
             <>
               <span>{title}</span>
               <EditOutlined
-                onClick={() => setIsEdit(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCopyIsEdit(true);
+                  setIsEdit(true);
+                }}
                 style={{ fontSize: "12px", color: "#8c8c8c" }}
               />
             </>

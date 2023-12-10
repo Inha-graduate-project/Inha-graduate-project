@@ -12,4 +12,8 @@ export interface Course {
     image_url: string;
     food_imageUrl: string;
     food_name: string;
+    course_id: number;
+    title?: string;
+    start_day?: number;
+    finish_day?: number;
 }

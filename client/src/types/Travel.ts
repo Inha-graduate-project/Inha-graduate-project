@@ -6,7 +6,7 @@ export interface Travel {
     category: string;
     image_url: string;
     location: {
-        lat: number,
-        lng: number;
+        latitude: number,
+        longitude: number;
     }
 }

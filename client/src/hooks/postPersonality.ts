@@ -40,10 +40,7 @@ export function usePostPersonality(personality: Personality) {
             if(idx !== 0) {
                 newCourses.push({
                     children: item.name,
-                    location: {
-                        lat: item.location.latitude,
-                        lng: item.location.longitude,
-                    },
+                    location: item.location,
                     address: item.address,
                     type: item.type,
                     day: item.day,

@@ -1,5 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Card, Divider, Typography } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CardEditComponent } from "../../components";
 import { useGetSavedCourses } from "../../hooks";
@@ -26,6 +27,7 @@ export default function Mypage() {
       },
     });
   };
+  const [isEdit, setIsEdit] = useState(false);
   return (
     <>
       {isLoading ? (
@@ -40,14 +42,16 @@ export default function Mypage() {
               {data?.map((item) => {
                 return (
                   <Card
-                    onClick={() =>
-                      handleNavigate(
-                        item.course_id,
-                        item.title,
-                        item.start_day,
-                        item.finish_day
-                      )
-                    }
+                    onClick={() => {
+                      if (!isEdit) {
+                        handleNavigate(
+                          item.course_id,
+                          item.title,
+                          item.start_day,
+                          item.finish_day
+                        );
+                      }
+                    }}
                     hoverable
                     style={{ width: 210 }}
                     cover={
@@ -59,6 +63,8 @@ export default function Mypage() {
                     }
                   >
                     <CardEditComponent
+                      isEdit={isEdit}
+                      setIsEdit={setIsEdit}
                       id={item.course_id}
                       title={item.title}
                       startDay={item.start_day}

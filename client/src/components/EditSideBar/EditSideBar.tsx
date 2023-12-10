@@ -1,5 +1,5 @@
 import { Button, Modal, Tabs, Typography } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExclamationCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { courseState, dayState, userState } from "../../state";
@@ -11,15 +11,17 @@ import {
   TitleContainer,
 } from "../CourseSideBar/styles";
 import { StyledButton } from "./styles";
-import { useGetSavedCourseById } from "../../hooks";
+import { useGetSavedCourseById, usePutModifyRoute } from "../../hooks";
 
 interface CourseSideBarProps {
+  courseId: number;
   city: string;
   title: string;
   startDay: number;
   finishDay: number;
 }
 export default function CourseSideBar({
+  courseId,
   city,
   title,
   startDay,
@@ -56,6 +58,8 @@ export default function CourseSideBar({
       },
     });
   };
+  const [totalCourse, setTotalCourse] = useState(course);
+  const { mutate, isLoading: isMutationLoading } = usePutModifyRoute();
   const [editCourse, setEditCourse] = useState(
     course.filter((item) => {
       return item.day === day;
@@ -64,6 +68,25 @@ export default function CourseSideBar({
   const filteredData = data?.filter((item) => {
     return item.type === tab;
   });
+  const saveCourse = () => {
+    const copyCourse = [...totalCourse];
+    let cnt = 0;
+    let courseIdx = 0;
+    totalCourse.map((item, idx) => {
+      if (item.day === day) {
+        cnt++;
+        if (cnt === 1) {
+          courseIdx = idx;
+        }
+      }
+    });
+    copyCourse.splice(courseIdx, cnt, ...editCourse);
+    setTotalCourse(copyCourse);
+  };
+  useEffect(() => {
+    saveCourse();
+  }, [editCourse]);
+
   return (
     <>
       <Container width={400}>
@@ -78,7 +101,13 @@ export default function CourseSideBar({
               {String(finishDay).replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3")}
             </span>
           </div>
-          <Button type="primary" onClick={showConfirm}>
+          <Button
+            type="primary"
+            onClick={() => {
+              mutate(totalCourse);
+              if (!isMutationLoading) showConfirm();
+            }}
+          >
             저장하기
           </Button>
         </TitleContainer>
@@ -88,7 +117,7 @@ export default function CourseSideBar({
           onChange={(activeKey) => {
             setDay(Number(activeKey));
             setEditCourse(
-              course.filter((item) => {
+              totalCourse.filter((item) => {
                 return item.day === Number(activeKey);
               })
             );
@@ -114,7 +143,11 @@ export default function CourseSideBar({
               editCourse={editCourse}
               setEditCourse={setEditCourse}
               button="edit"
-              title={item.children}
+              courseId={courseId}
+              title={title}
+              startDay={startDay}
+              finishDay={finishDay}
+              name={item.children}
               address={item.address}
               type={item.type}
               day={day}
@@ -155,7 +188,10 @@ export default function CourseSideBar({
                 button="rate"
                 isRate={true}
                 rate={item.rating}
-                title={item.name}
+                name={item.name}
+                title={title}
+                startDay={startDay}
+                finishDay={finishDay}
                 address={item.address}
                 type={item.type}
                 day={day}
