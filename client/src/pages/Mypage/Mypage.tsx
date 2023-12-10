@@ -1,4 +1,4 @@
-import { UserOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Card, Divider, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,11 @@ export default function Mypage() {
       {isLoading ? (
         <>Loading...</>
       ) : (
-        <Block>
+        <Block style={{ gap: "8px" }}>
+          <div onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+            <ArrowLeftOutlined style={{ margin: "8px 4px 0 0" }} />
+            <span>처음으로</span>
+          </div>
           <ContentBox>
             <UserOutlined style={{ fontSize: "40px" }} />
             <Title level={4}>{userId}님의 마이페이지</Title>
@@ -58,7 +62,11 @@ export default function Mypage() {
                       <img
                         alt="example"
                         style={{ height: "114px" }}
-                        src={item.data[1].image_url}
+                        src={
+                          item.data[0].name.includes("터미널")
+                            ? item.data[1].image_url
+                            : item.data[0].image_url
+                        }
                       />
                     }
                   >

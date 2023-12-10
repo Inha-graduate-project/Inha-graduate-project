@@ -1,6 +1,10 @@
 import { Button, Modal, Tabs, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { ExclamationCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  ExclamationCircleFilled,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { courseState, dayState, userState } from "../../state";
 import { CourseItems } from "../CourseItems";
@@ -90,6 +94,10 @@ export default function CourseSideBar({
   return (
     <>
       <Container width={400}>
+        <div onClick={() => navigate("/mypage")} style={{ cursor: "pointer" }}>
+          <ArrowLeftOutlined style={{ margin: "8px 4px 0 0" }} />
+          <span>마이페이지</span>
+        </div>
         <TitleContainer>
           <div>
             <Title level={4} style={{ margin: "0px" }}>
