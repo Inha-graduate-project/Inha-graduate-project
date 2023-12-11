@@ -22,7 +22,8 @@ export default ({ mode }) => {
           target: 'http://localhost:8001',
           changeOrigin: true,
           secure: false,
-        }
+        },
+        allowLocalFiles: ['/home/ubuntu/Inha-graduate-project/client/.env'],
       }
     }
   }
