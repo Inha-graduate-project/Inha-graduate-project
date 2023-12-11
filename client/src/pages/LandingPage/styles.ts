@@ -19,6 +19,7 @@ export const ContentBox = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 120px;
 `;
 export const StyledButton = styled(Button)`
     width: 10vw;

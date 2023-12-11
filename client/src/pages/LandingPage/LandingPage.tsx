@@ -112,6 +112,10 @@ export default function LandingPage() {
     <>
       {contextHolder}
       <Block>
+        <img
+          style={{ width: "200px", margin: "-50px auto" }}
+          src="./img/Logo.png"
+        ></img>
         <StepsComponent current={steps} />
         <ContentBox>
           {transition((styles, item) => (
