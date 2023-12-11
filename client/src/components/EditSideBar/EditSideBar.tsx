@@ -1,10 +1,6 @@
-import { Button, Modal, Tabs, Typography } from "antd";
+import { Button, Tabs, Typography } from "antd";
 import { useEffect, useState } from "react";
-import {
-  ArrowLeftOutlined,
-  ExclamationCircleFilled,
-  PlusCircleOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { courseState, dayState, userState } from "../../state";
 import { CourseItems } from "../CourseItems";
@@ -37,7 +33,6 @@ export default function CourseSideBar({
   const setDay = useSetRecoilState(dayState);
   const day = useRecoilValue(dayState);
   const travelDay = user.travel_day;
-  const { confirm } = Modal;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useGetSavedCourseById(city);
@@ -49,19 +44,7 @@ export default function CourseSideBar({
   };
   const tabItems = ["여행지", "음식점", "숙소"];
   const [tab, setTab] = useState("여행지");
-  const showConfirm = () => {
-    confirm({
-      title: "저장이 완료되었습니다.",
-      icon: <ExclamationCircleFilled />,
-      content: "마이페이지로 이동하시겠습니까?",
-      onOk() {
-        navigate("/mypage");
-      },
-      onCancel() {
-        console.log("Cancel");
-      },
-    });
-  };
+
   const [totalCourse, setTotalCourse] = useState(course);
   const { mutate, isLoading: isMutationLoading } = usePutModifyRoute();
   const [editCourse, setEditCourse] = useState(
@@ -111,9 +94,9 @@ export default function CourseSideBar({
           </div>
           <Button
             type="primary"
+            loading={isMutationLoading}
             onClick={() => {
               mutate(totalCourse);
-              if (!isMutationLoading) showConfirm();
             }}
           >
             저장하기
