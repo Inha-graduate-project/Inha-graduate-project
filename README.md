@@ -39,3 +39,31 @@
 ![AWS](https://img.shields.io/badge/amazonaws-232F3E?style=flat-for-the-badge&logo=amazonaws&logoColor=white)
 ![Selenium](https://img.shields.io/badge/Selenium-43B02A?style=flat-for-the-badge&logo=Selenium&logoColor=white)
 
+## 주요 기능
+|지역 선택|
+|------|
+|![지역선택](https://github.com/waggle2/wagglewaggle/assets/87300419/81500474-aa5c-4e44-b7c7-715b6931158a)|
+|일정 선택|
+|![일정선택](https://github.com/waggle2/wagglewaggle/assets/87300419/55d7fb27-82b2-4c73-a64d-75e9befc3eeb)|
+|선호 여행테마 선택|
+|![선호여행테마](https://github.com/waggle2/wagglewaggle/assets/87300419/87a2da47-c195-4bfe-ba93-de0ca4b57465)|
+|선호 음식메뉴 선택|
+|![ezgif-3-53e4786d98](https://github.com/waggle2/wagglewaggle/assets/87300419/80c95e92-96cc-46da-a493-152e247de36b)|
+|선호 숙박시설 선택|
+|![ezgif-3-8b6470882a](https://github.com/waggle2/wagglewaggle/assets/87300419/e8b9107c-1977-4043-bead-bb9b81d00fb8)|
+|여행코스 화면(최초 생성시)|
+|![ezgif-3-746b70d40b](https://github.com/waggle2/wagglewaggle/assets/87300419/12952b67-10b1-4e69-8d74-93ee3f1e04c1)|
+|여행코스 - 예상 경비|
+|![ezgif-3-6e0ea2de65](https://github.com/waggle2/wagglewaggle/assets/87300419/856690dd-1bec-4e80-bc2b-c4f3b79950ac)|
+|여행코스 - 날짜 변경|
+|![ezgif-3-418697a071](https://github.com/waggle2/wagglewaggle/assets/87300419/49d383af-349e-4bce-b6e2-ef4f1e2c00eb)|
+|여행코스 - 저장, 마이페이지|
+|![ezgif-3-fde90ab6a9](https://github.com/waggle2/wagglewaggle/assets/87300419/8627650c-1665-4e23-92fd-5e9521958a51)|
+|마이페이지 - 코스명 변경|
+|![ezgif-3-e2c13ad047](https://github.com/waggle2/wagglewaggle/assets/87300419/20ede31c-2898-4cea-8590-9410c5777c75)|
+|여행코스 편집 화면|
+|![ezgif-3-79c485eb5b](https://github.com/waggle2/wagglewaggle/assets/87300419/1769ce77-eb7e-411c-8625-69d8010cb826)|
+|여행코스 편집 - 새로운 장소 추가|
+|![ezgif-3-dfe1ebd177](https://github.com/waggle2/wagglewaggle/assets/87300419/95b04d54-53ed-4800-865a-eada3cf5b656)|
+|여행코스 편집 - 저장|
+|![ezgif-3-1e73c12682](https://github.com/waggle2/wagglewaggle/assets/87300419/8c49c088-3af8-48be-9e1f-df5fd90cb19e)|
