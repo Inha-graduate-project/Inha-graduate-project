@@ -67,3 +67,9 @@
 |![ezgif-3-dfe1ebd177](https://github.com/waggle2/wagglewaggle/assets/87300419/95b04d54-53ed-4800-865a-eada3cf5b656)|
 |여행코스 편집 - 저장|
 |![ezgif-3-1e73c12682](https://github.com/waggle2/wagglewaggle/assets/87300419/8c49c088-3af8-48be-9e1f-df5fd90cb19e)|
+
+## 기획
+1. 요구사항 명세서 [링크](https://docs.google.com/document/d/1MH9Xl6nzpJ68t5uQj7w82k6NxB6ku9E2xwzZi40gIcI/edit?usp=sharing)
+3. 상세 설계서 [링크](https://docs.google.com/document/d/1B9Esx4NA8pQthEj9O4XoCrj1iYFVH0ckdK4wAzreRmI/edit?usp=sharing)
+4. 프로젝트 구조 ![그림9](https://github.com/elice-team03/gazago/assets/87300419/4b69bd9b-1fa9-4268-80be-d9ba51a64e85)
+5. 폴더 구조
