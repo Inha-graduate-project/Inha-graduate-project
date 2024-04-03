@@ -2,7 +2,12 @@
 ====
 ![image](https://github.com/Inha-onestep/MyOwnTour/assets/87300419/3bb46885-9809-4012-9669-af640a3ba9fb)<br/>
 ### 사용자 맞춤 여행코스를 클릭 몇 번으로 완성하기
-원하는 코스, 음식점, 숙소를 간편하게 맞춤으로 추천받자! 사용자 취향기반 여행코스 추천 서비스 내맘투어<br/><br/>
+원하는 코스, 음식점, 숙소를 간편하게 맞춤으로 추천받자! 사용자 취향기반 여행코스 추천 서비스 내맘투어<br/>
+* 구글 맵 API를 통해 사용자가 원하는 지역의 맞춤 여행지를 수집합니다.
+* Haversine 공식을 통해 수집된 여행지들간의 최적 경로를 계산합니다.
+* 최적 경로를 바탕으로 사용자들에게 지도상에서 Polyline을 통해 경로를 표시합니다.
+* 크롤링을 통해 예상 경비를 계산하여 사용자에게 제공합니다.
+<br/>
 
 ## 인하대학교 캡스톤디자인 설계발표회 장려상
 ![image](https://github.com/Inha-onestep/MyOwnTour/assets/87300419/328e2215-d31f-41bd-b076-5f7db95db944)
@@ -70,6 +75,5 @@
 
 ## 기획
 1. 요구사항 명세서 [링크](https://docs.google.com/document/d/1MH9Xl6nzpJ68t5uQj7w82k6NxB6ku9E2xwzZi40gIcI/edit?usp=sharing)
-3. 상세 설계서 [링크](https://docs.google.com/document/d/1B9Esx4NA8pQthEj9O4XoCrj1iYFVH0ckdK4wAzreRmI/edit?usp=sharing)
-4. 프로젝트 구조 ![그림9](https://github.com/elice-team03/gazago/assets/87300419/4b69bd9b-1fa9-4268-80be-d9ba51a64e85)
-5. 폴더 구조
+2. 상세 설계서 [링크](https://docs.google.com/document/d/1B9Esx4NA8pQthEj9O4XoCrj1iYFVH0ckdK4wAzreRmI/edit?usp=sharing)
+3. 프로젝트 구조 ![그림9](https://github.com/elice-team03/gazago/assets/87300419/4b69bd9b-1fa9-4268-80be-d9ba51a64e85)
