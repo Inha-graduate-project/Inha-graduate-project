@@ -18,20 +18,22 @@ export default function DestinationCards({ isError }: DestinationCardsProps) {
   const [selected, setSelected] = useState([0, 0, 0, 0, 0, 0]);
   const count = useRef(1);
   return (
-    <Block>
+    <>
       <NoMarginTitle>선호하는 여행테마를 선택해 주세요.</NoMarginTitle>
-      {destination.map((item, idx) => (
-        <CardComponent
-          title={item}
-          src={`/src/img/destination_${idx}.jpg`}
-          setSelected={setSelected}
-          idx={idx}
-          count={count}
-          selected={selected}
-          type="destination"
-          isError={isError}
-        />
-      ))}
-    </Block>
+      <Block>
+        {destination.map((item, idx) => (
+          <CardComponent
+            title={item}
+            src={`/src/img/destination_${idx}.jpg`}
+            setSelected={setSelected}
+            idx={idx}
+            count={count}
+            selected={selected}
+            type="destination"
+            isError={isError}
+          />
+        ))}
+      </Block>
+    </>
   );
 }
