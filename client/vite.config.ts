@@ -1,9 +1,9 @@
-import { loadEnv } from 'vite'
-import { createHtmlPlugin } from 'vite-plugin-html'
-import react from '@vitejs/plugin-react'
+import { loadEnv } from "vite";
+import { createHtmlPlugin } from "vite-plugin-html";
+import react from "@vitejs/plugin-react";
 
-export default ({ mode }) => {  
-  const env = loadEnv(mode, process.cwd())
+export default ({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
   return {
     plugins: [
       react(),
@@ -11,20 +11,20 @@ export default ({ mode }) => {
         minify: true,
         inject: {
           data: {
-            kakaoApiKey: env.VITE_KAKAO_API_KEY
-          }
-        }
+            kakaoApiKey: env.VITE_KAKAO_API_KEY,
+          },
+        },
       }),
     ],
     server: {
       proxy: {
-        '/api': {
-          target: 'http://localhost:8001',
+        "/api": {
+          target: env.VITE_API_ENDPOINT,
           changeOrigin: true,
           secure: false,
         },
-        allowLocalFiles: ['/home/ubuntu/Inha-graduate-project/client/.env'],
-      }
-    }
-  }
-}
+        allowLocalFiles: ["/home/ubuntu/Inha-graduate-project/client/.env"],
+      },
+    },
+  };
+};
