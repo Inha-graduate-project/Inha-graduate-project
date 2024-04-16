@@ -24,7 +24,7 @@ export default function DestinationCards({ isError }: DestinationCardsProps) {
         {destination.map((item, idx) => (
           <CardComponent
             title={item}
-            src={`/src/img/destination_${idx}.jpg`}
+            src={`/img/destination_${idx}.jpg`}
             setSelected={setSelected}
             idx={idx}
             count={count}
