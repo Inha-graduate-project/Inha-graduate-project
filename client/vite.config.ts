@@ -19,7 +19,7 @@ export default ({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: env.VITE_API_ENDPOINT,
+          target: "http://localhost:8001",
           changeOrigin: true,
           secure: false,
         },
